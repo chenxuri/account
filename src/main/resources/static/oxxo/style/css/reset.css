@@ -1,0 +1,48 @@
+*{ -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing:border-box;
+    box-sizing: border-box; }
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+    margin:0;
+    padding:0;
+}
+table {border-collapse:collapse;border-spacing:0;}
+fieldset,img { border:0;}
+address,caption,cite,code,dfn,em,strong,th,var {font-style:normal;font-weight:normal;}
+ol,ul {list-style:none;}
+caption,th {text-align:left;}
+h1,h2,h3,h4,h5,h6 {font-size:100%;font-weight:normal;}
+q:before,q:after {content:'';}
+abbr,acronym { border:0;}
+
+body{font:14px/1.25 Microsoft Yahei;}
+a{text-decoration: none;}
+.clearfix:before{display: table;content:""}
+/*宸ュ叿class  */
+.f12{font-size: 12px;}
+.f14{font-size: 14px;}
+.f16{font-size: 16px;}
+.f18{font-size: 18px;}
+.f24{font-size: 24px;}
+.f32{font-size: 32px;}
+
+
+.p10{padding: 10px 0 10px 20px;}
+
+.pull-left{float: left;}
+.pull-right{float: right;}
+.clearfix:after{content: ".";display: block;height: 0.1;visibility: hidden;clear: both;line-height: 0px;}
+
+.col-xs-1{width: 8.3333333333%;}
+.col-xs-2{width:16.6666666666%;}
+.col-xs-3{width:25%;}
+.col-xs-4{width:33.3333333333%;}
+.col-xs-5{width:41.6666666667%;}
+.col-xs-6{width:50%;}
+.col-xs-7{width: 58.333333333%;}
+.col-xs-9{width: 75%;}
+.col-xs-8{width: 66.666666666%;}
+.col-xs-10{width: 83.333333334%;}
+.col-xs-11{width: 91.666666666%;}
+.col-xs-12{width: 100%;}

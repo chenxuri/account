@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.spider.dao.KeywordsDao">
+
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.spider.domain.Keywords">
+		<result column="_id" property="id" />
+		<result column="org_id" property="organization.id" />
+		<result column="org_name" property="organization.name" />
+		<result column="keywords" property="keywords" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+	<parameterMap id="Keywords" type="com.yeeton.modules.spider.domain.Keywords"/>
+
+	<sql id="Base_Column_List">
+		_id, org_id, org_name,keywords,create_time
+	</sql>
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_keywords a
+		WHERE a._id = #{id}
+	</select>
+
+	<select id="select" parameterType="com.yeeton.modules.spider.domain.Keywords" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_keywords a
+		<where>
+			<if test="organization != null">
+				<if test="organization.id != null and organization.id != ''">
+					AND a.org_id = #{organization.id}
+				</if>
+				<if test="organization.name != null and organization.name != ''">
+					AND a.org_name like concat(concat('%',#{organization.name}),'%')
+				</if>
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND a.keywords = #{keywords}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.create_time BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+		</where>
+
+
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_keywords a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.spider.domain.Keywords" resultType="java.lang.Integer">
+		SELECT
+		COUNT(_id)
+		FROM account_keywords a
+		<where>
+			<if test="organization != null">
+				<if test="organization.id != null and organization.id != ''">
+					AND a.org_id = #{organization.id}
+				</if>
+				<if test="organization.name != null and organization.name != ''">
+					AND a.org_name like concat(concat('%',#{organization.name}),'%')
+				</if>
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND a.keywords = #{keywords}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.create_time BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+		</where>
+
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.spider.domain.Keywords">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT account_keywords (
+			org_id,
+			org_name,
+			keywords,
+			create_time
+		) VALUES (
+			#{organization.id},
+			#{organization.name},
+			#{keywords},
+			#{createTime}
+		)
+	</insert>
+
+	<insert id="insertBatch"  useGeneratedKeys="true" parameterType="java.util.List">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT account_keywords (
+			org_id,
+			org_name,
+			keywords,
+			create_time
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.organization.id},
+			#{item.organization.name},
+			#{item.keywords},
+			#{item.createTime}
+			)
+		</foreach>
+	</insert>
+
+
+	<update id="updateByPrimaryKey" parameterType="com.yeeton.modules.spider.domain.Keywords">
+		UPDATE account_keywords SET
+			org_id = #{orgId},
+			org_name = #{orgName},
+			keywords = #{keywords},
+			create_time = #{createTime}
+		WHERE _id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.spider.domain.Keywords">
+		UPDATE account_keywords SET
+			org_id = #{organization.id},
+			org_name = #{organization.name},
+			keywords = #{keywords},
+			create_time = #{createTime}
+		WHERE _id IN
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.spider.domain.Keywords">
+		UPDATE account_keywords SET
+			org_id = #{organization.id},
+			org_name = #{organization.name},
+			keywords = #{keywords},
+			create_time = #{createTime}
+		WHERE _id = #{id}
+	</update>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		DELETE FROM account_keywords WHERE _id = #{id}
+	</delete>
+
+	<delete id="deleteByPrimaryKeyArray" parameterType="java.lang.Long">
+		DELETE FROM account_keywords WHERE _id IN
+		<foreach collection="array" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.spider.domain.Keywords">
+		DELETE FROM account_keywords
+		<where>
+			<if test="organization != null">
+				<if test="organization.id != null and organization.id != ''">
+					AND a.org_id = #{organization.id}
+				</if>
+				<if test="organization.name != null and organization.name != ''">
+					AND a.org_name like concat(concat('%',#{organization.name}),'%')
+				</if>
+			</if>
+			<if test="keywords != null and keywords != ''">
+				AND a.keywords = #{keywords}
+			</if>
+		</where>
+
+
+
+	</delete>
+
+</mapper>

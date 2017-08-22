@@ -1,0 +1,90 @@
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
+<body>
+<section  layout:fragment="content">
+
+
+<!-- begin #content -->
+    <div id="content" class="content">
+
+        <div class="row">
+            <form class="form-horizontal" id="form-search">
+                <div class="form-group m-b-5">
+                    <label class="col-md-2 control-label">地名</label>
+                    <div class="col-md-3">
+                        <input type="text"  class="form-control" placeholder="地名" name="mergerName"/>
+                    </div>
+                    <button type="button" id="conditionquery" class="btn btn-success width-100 m-r-5">查询</button>
+
+                </div>
+
+            </form>
+        </div>
+
+        <!-- begin section-container -->
+        <div class="section-container section-with-top-border">
+            <!-- begin panel -->
+            <div class="panel pagination-inverse m-b-0">
+                <table id="table"
+                       class="table-bordered"
+                       data-toggle="table"
+                       data-url="/account/upms/area/list"
+                       data-side-pagination="server"
+                       data-pagination="true"
+                       data-click-to-select="true"
+                       data-sort-name="id"
+                       data-sort-order="desc"
+                       data-unique-id="index"
+                       data-query-params="queryParams"
+                       data-page-list="[20, 50, 100, 200]"
+                       >
+                    <thead>
+                    <tr>
+                        <th data-field="checkbox" data-align="center" data-valign="middle" data-class="icheck" data-checkbox="true"></th>
+                        <th data-field="index"  data-align="center" data-valign="middle" data-formatter="indexfuncton">序号</th>
+                        <th data-field="name">名称</th>
+                        <th data-field="mergerName">组合名</th>
+                        <th data-field="longitude">经度</th>
+                        <th data-field="latitude">维度</th>
+                        <th data-field="id" data-align="center" data-valign="middle" data-formatter="operateFormatter" data-events="operateEvents" ></th>
+                    </tr>
+                    </thead>
+                </table>
+
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end section-container -->
+
+        <!-- begin #footer -->
+<!--
+        <div th:replace="layout/layout :: footer"></div>
+-->
+        <!-- end #footer -->
+    </div>
+    <!-- end #content -->
+
+<script type='text/javascript'>//<![CDATA[
+function queryParams(params) {
+    return {
+        tm:new Date().getTime(),
+        pageNum: params.pageNum,
+        pageSize: params.pageSize,
+        sort: params.sort,
+        order: params.order,
+        mergerName:$("#form-search").find("input[name='mergerName']").val()
+    };
+}
+//]]>
+</script>
+<script>
+    var $table = $('#table');
+
+    //条件查询
+    $('#conditionquery').click(function(){
+        $table.bootstrapTable('refresh');
+    });
+
+</script>
+</section>
+</body>
+</html>

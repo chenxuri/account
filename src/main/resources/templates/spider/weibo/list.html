@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!--[if !IE]><!-->
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!--<![endif]-->
+<head th:replace="layout/layout :: htmlhead(title='账号反欺诈平台')"></head>
+<script type="text/javascript">
+    function indexfuncton(value,row,index) {
+        return index+1;
+    }
+
+    function operateFormatter(value,row,index){
+
+        return ['<a class="showdetail" href="javascript:void(0)" title="查看">',
+            '<i class="glyphicon glyphicon-folder-open"></i>',
+            '</a>'
+        ].join('');
+    }
+
+    window.operateEvents = {
+        'click .showdetail': function (e, value, row, index) {
+            alert("showdetail");
+            console.log(row);
+        }
+    };
+</script>
+<body>
+<!-- begin #page-loader -->
+<div id="page-loader" class="page-loader fade in"><span class="spinner">加载中...</span></div>
+<!-- end #page-loader -->
+
+<!-- begin #page-container -->
+<div id="page-container" class="fade page-container page-header-fixed page-sidebar-fixed page-with-two-sidebar page-with-footer">
+    <!-- begin #header -->
+    <div th:replace="layout/layout :: header(title='账号反欺诈平台')"></div>
+
+    <!-- end #header -->
+
+    <!-- begin #sidebar -->
+    <div th:replace="layout/layout :: sidebar"></div>
+
+    <div class="sidebar-bg"></div>
+    <!-- end #sidebar -->
+
+    <!-- begin #content -->
+    <div id="content" class="content">
+
+
+        <!-- begin section-container -->
+        <div class="section-container section-with-top-border">
+            <!-- begin panel -->
+            <div class="panel pagination-inverse m-b-0">
+                <table id="table"
+                       class="table-bordered"
+                       data-toggle="table"
+                       data-url="/account/webchat/list"
+                       data-side-pagination="server"
+                       data-pagination="true"
+                       data-click-to-select="true"
+                       data-sort-name="id"
+                       data-sort-order="desc"
+                       data-unique-id="index"
+                       data-query-params="queryParams"
+                       data-page-list="[20, 50, 100, 200]"
+                       >
+                    <thead>
+                    <tr>
+                        <th data-field="checkbox" data-align="center" data-valign="middle" data-class="icheck" data-checkbox="true"></th>
+                        <th data-field="index"  data-align="center" data-valign="middle" data-formatter="indexfuncton">序号</th>
+                        <th data-field="wechatid">公众号ID</th>
+                        <th data-field="name">公众号名称</th>
+                        <th data-field="renzhen">认证信息</th>
+                        <th data-field="id" data-align="center" data-valign="middle" data-formatter="operateFormatter" data-events="operateEvents" ></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end section-container -->
+
+        <!-- begin #footer -->
+<!--
+        <div th:replace="layout/layout :: footer"></div>
+-->
+        <!-- end #footer -->
+    </div>
+    <!-- end #content -->
+
+</div>
+<!-- end page container -->
+
+<!-- begin theme-panel -->
+<div th:replace="layout/layout :: themePanel"></div>
+<!-- end theme-panel -->
+
+<!-- ================== BEGIN BASE JS ================== -->
+<script th:src="@{/sourceAdmin/assets/plugins/jquery/jquery-1.9.1.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/jquery/jquery-migrate-1.1.0.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<!--[if lt IE 9]>
+<script th:src="@{/sourceAdmin/assets/crossbrowserjs/html5shiv.js}"></script>
+<script th:src="@{/sourceAdmin/assets/crossbrowserjs/respond.min.js}"></script>
+<![endif]-->
+<script th:src="@{/sourceAdmin/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/jquery-cookie/jquery.cookie.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/bootstrap-table/bootstrap-table.js}"></script>
+<!-- ================== END BASE JS ================== -->
+
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script th:src="@{/sourceAdmin/assets/js/demo.js}"></script>
+<script th:src="@{/sourceAdmin/assets/js/apps.min.js}"></script>
+<!-- ================== END PAGE LEVEL JS ================== -->
+<script type='text/javascript'>//<![CDATA[
+function queryParams(params) {
+    return {
+        tm:new Date().getTime(),
+        pageNum: params.pageNum,
+        pageSize: params.pageSize,
+        search: params.search,
+        sort: params.sort,
+        order: params.order
+    };
+}
+//]]>
+</script>
+<script>
+    var $table = $('#table');
+
+    $(document).ready(function() {
+        App.init();
+        Demo.init();
+    });
+
+</script>
+</body>
+</html>

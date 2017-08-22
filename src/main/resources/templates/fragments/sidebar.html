@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:id="sidebar" th:fragment="sidebar" class="sidebar">
+    <!-- begin sidebar scrollbar -->
+    <div data-scrollbar="true" data-height="100%">
+        <!-- begin sidebar nav -->
+        <ul class="nav">
+            <li class="has-sub active">
+                <a href="javascript:;">
+                    <b class="caret pull-right"></b>
+                    <i class="fa fa-home"></i>
+                    <span>系统管理</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="active"><a th:href="@{/upms/user/index}">用户管理</a></li>
+                    <li><a th:href="@{/upms/org/index}">机构管理</a></li>
+<!--
+                    <li><a th:href="@{/upms/area/index}">地区管理</a></li>
+-->
+                </ul>
+            </li>
+            <li class="has-sub">
+                <a href="javascript:;">
+                    <b class="caret pull-right"></b>
+                    <i class="fa fa-home"></i>
+                    <span>账号爬虫</span>
+                </a>
+                <ul class="sub-menu">
+                    <li><a th:href="@{/spider/crawler/index}">爬虫</a></li>
+                    <li><a th:href="@{/spider/keywords/index}">关键词</a></li>
+                    <li><a th:href="@{/spider/accountInfoWhite/index}">账号白名单</a></li>
+                    <li><a th:href="@{/spider/accountInfoFind/index}">风险账号</a></li>
+                    <li><a th:href="@{/spider/accountInfoRisk/index}">已处理账号</a></li>
+<!--
+                    <li><a th:href="@{/spider/webchat/index}">微信</a></li>
+-->
+                </ul>
+            </li>
+        </ul>
+        <!-- end sidebar nav -->
+    </div>
+    <!-- end sidebar scrollbar -->
+</div>
+
+</body>
+</html>

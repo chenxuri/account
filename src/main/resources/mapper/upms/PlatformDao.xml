@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.upms.dao.PlatformDao">
+
+	<!--`_id` varchar(64) NOT NULL COMMENT '编号',
+	`icon` varchar(50) DEFAULT NULL COMMENT '图标',
+	`banner` varchar(50) DEFAULT NULL COMMENT '背景',
+	`theme` varchar(50) DEFAULT NULL COMMENT '主题',
+	`basepath` varchar(100) DEFAULT NULL COMMENT '根目录',
+	`status` tinyint(4) DEFAULT '1' COMMENT '状态(-1:黑名单,1:正常)',
+	`name` varchar(20) DEFAULT NULL COMMENT '系统名称',
+	`title` varchar(20) DEFAULT NULL COMMENT '系统标题',
+	`sequence` int(10) DEFAULT NULL COMMENT '排序',
+	`remarks` varchar(300) DEFAULT NULL COMMENT '系统描述',
+	`create_time` datetime DEFAULT NULL COMMENT '创建时间',-->
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.upms.domain.Platform">
+		<result column="_id" property="id" />
+		<result column="icon" property="icon" />
+		<result column="banner" property="banner" />
+		<result column="theme" property="theme" />
+		<result column="basepath" property="basepath" />
+		<result column="status" property="status" />
+		<result column="name" property="name" />
+		<result column="title" property="title" />
+		<result column="sequence" property="sequence" />
+		<result column="remarks" property="remarks" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+	<parameterMap id="Webchat" type="com.yeeton.modules.upms.domain.Platform"/>
+
+	<sql id="Base_Column_List">
+		_id,
+		icon,
+		banner,
+		theme,
+		basepath,
+		status,
+		name,
+		title,
+		sequence,
+		remarks,
+		create_time
+	</sql>
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_platform a
+		WHERE a._id = #{id}
+	</select>
+
+	<select id="select" parameterType="com.yeeton.modules.upms.domain.Platform"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_platform a
+		WHERE 1=1
+		<if test="type != null and type != ''">
+			AND a.type = #{type}
+		</if>
+		<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+			AND a.created BETWEEN #{startCreated} AND #{endCreated}
+		</if>
+
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_platform a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.upms.domain.Platform" resultType="java.lang.Integer">
+		SELECT
+		COUNT(_id)
+		FROM upms_platform a
+		WHERE 1=1
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.created BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.upms.domain.Platform">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_platform (
+			icon,
+			banner,
+			theme,
+			basepath,
+			status,
+			name,
+			title,
+			sequence,
+			remarks,
+			create_time
+		) VALUES (
+			#{icon},
+			#{banner},
+			#{theme},
+			#{basepath},
+			#{status},
+			#{name},
+			#{title},
+			#{sequence},
+			#{remarks},
+			#{createTime}
+		)
+	</insert>
+
+	<insert id="insertBatch"  useGeneratedKeys="true" parameterType="java.util.List">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_platform (
+			icon,
+			banner,
+			theme,
+			basepath,
+			status,
+			name,
+			title,
+			sequence,
+			remarks,
+			create_time
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.icon},
+			#{item.banner},
+			#{item.theme},
+			#{item.basepath},
+			#{item.status},
+			#{item.name},
+			#{item.title},
+			#{item.sequence},
+			#{item.remarks},
+			#{item.createTime}
+			)
+		</foreach>
+	</insert>
+
+
+	<update id="updateByPrimaryKey" parameterType="java.lang.Long">
+		UPDATE upms_platform SET
+			Platform = #{Platform},
+			type = #{type}
+		WHERE _id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.upms.domain.Platform">
+		UPDATE upms_platform SET
+			Platform = #{Platform},
+			type = #{type}
+		WHERE _id IN
+		<foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.upms.domain.Platform">
+		UPDATE upms_platform SET
+			icon = #{icon},
+			banner = #{banner},
+			theme = #{theme},
+			basepath = #{basepath},
+			status = #{status},
+			name = #{name},
+			title = #{title},
+			sequence = #{sequence},
+			remarks = #{remarks},
+			create_time = #{createTime}
+		WHERE _id = #{id}
+	</update>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="com.yeeton.modules.upms.domain.Platform">
+		DELETE FROM upms_platform WHERE _id = #{id}
+	</delete>
+
+	<delete id="deleteByPrimaryKeyArray" parameterType="java.lang.Long">
+		DELETE FROM upms_platform WHERE _id IN
+		<foreach collection="array" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.upms.domain.Platform">
+		DELETE FROM account_webchat
+			WHERE
+		<if test="Platform != null and Platform != ''">
+			AND a.Platform = #{Platform}
+		</if>
+		<if test="type null and type != ''">
+			AND a.type = #{type}
+		</if>
+	</delete>
+
+</mapper>

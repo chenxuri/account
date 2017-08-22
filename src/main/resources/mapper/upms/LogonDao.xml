@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.upms.dao.LogonDao">
+
+<!--	`_id` varchar(64) NOT NULL,
+	`access_id` varchar(64) NOT NULL COMMENT '访问对象Id(用户或者机构)',
+	`username` varchar(30) NOT NULL COMMENT '登录名',
+	`password` varchar(50) NOT NULL COMMENT '登录密码',
+	`type` tinyint(2) NOT NULL DEFAULT '0' COMMENT '1:用户；2：机构',
+	`create_time` datetime NOT NULL COMMENT '创建时间',-->
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.upms.domain.Logon">
+		<result column="_id" property="id" />
+		<result column="access_id" property="accessId" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="type" property="type" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+	<parameterMap id="Webchat" type="com.yeeton.modules.upms.domain.Logon"/>
+
+	<sql id="Base_Column_List">
+		_id,
+		access_id,
+		username,
+		password,
+		type,
+		create_time
+	</sql>
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_logon a
+		WHERE a._id = #{id}
+	</select>
+
+	<select id="select" parameterType="com.yeeton.modules.upms.domain.Logon"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_logon a
+		WHERE 1=1
+		<if test="type != null and type != ''">
+			AND a.type = #{type}
+		</if>
+		<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+			AND a.created BETWEEN #{startCreated} AND #{endCreated}
+		</if>
+
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_logon a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.upms.domain.Logon" resultType="java.lang.Integer">
+		SELECT
+		COUNT(_id)
+		FROM upms_logon a
+		WHERE 1=1
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.created BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.upms.domain.Logon">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_logon (
+			access_id,
+			username,
+			password,
+			type,
+			create_time
+		) VALUES (
+			#{accessId},
+			#{username},
+			#{password},
+			#{type},
+			#{createTime}
+		)
+	</insert>
+
+	<insert id="insertBatch"  useGeneratedKeys="true" parameterType="java.util.List">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_logon (
+			access_id,
+			username,
+			password,
+			type,
+			create_time
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.accessId},
+			#{item.username},
+			#{item.password},
+			#{item.type},
+			#{item.createTime}
+			)
+		</foreach>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.yeeton.modules.upms.domain.Logon">
+		UPDATE upms_logon SET
+			access_id = #{accessId},
+			username = #{username},
+			password = #{password},
+			type = #{type},
+			create_time = #{createTime}
+		WHERE _id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.upms.domain.Logon">
+		UPDATE upms_logon SET
+			access_id = #{accessId},
+			username = #{username},
+			password = #{password},
+			type = #{type},
+			create_time = #{createTime}
+		WHERE _id IN
+		<foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.upms.domain.Logon">
+		UPDATE upms_logon SET
+			Logon = #{Logon},
+			type = #{type},
+			created = #{created}
+		WHERE _id = #{id}
+	</update>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		DELETE FROM upms_logon WHERE _id = #{id}
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.upms.domain.Logon">
+		DELETE FROM account_webchat
+			WHERE
+		<if test="Logon != null and Logon != ''">
+			AND a.Logon = #{Logon}
+		</if>
+		<if test="type null and type != ''">
+			AND a.type = #{type}
+		</if>
+	</delete>
+
+</mapper>

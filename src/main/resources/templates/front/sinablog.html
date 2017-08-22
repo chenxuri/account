@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh_cn">
+<head>
+    <meta charset="UTF-8">
+    <title>账号态势</title>
+    <link rel="SHORTCUT ICON" href="/style/img/txwz.ico" />
+    <link th:href="@{/oxxo/style/css/reset.css}" rel="stylesheet">
+    <link th:href="@{/oxxo/style/css/index.css}" rel="stylesheet">
+
+    <script th:src="@{/oxxo/style/js/jquery-1.11.3.min.js}"></script>
+    <!--[if lt IE 9]>
+    <script src="http://pc1.gtimg.com/ap/html5.min.js}"></script>
+    <script src="http://pc1.gtimg.com/ap/respond.min.js}"></script>
+    <![endif]-->
+</head>
+<script>
+    var isHide = window.localStorage && window.localStorage['ishide'];
+    var not_support  = window.applicationCache ? "" :"not-html5";
+    if(isHide == 1){
+        document.write("<body class='html5'>");
+        window.localStorage['ishide'] = 1;
+    }else if(!isHide || isHide == 0){
+        document.write("<body class='"+not_support+"'>");
+    }
+</script>
+<div class="header">
+    <h2><a href="http://yeeton.com.cn" target="_self">亿盾互联反账号欺诈态势</a></h2>
+    <div class="hright">
+        <span class="power"></span>
+    </div>
+</div>
+<div class="left-menu">
+    <div class="left-menu-content">
+        <ul class="left-navigation">
+            <li class="left-nav">
+                <a class="left-nav-title" href="/account/all" data-target="pseudo-base-station">
+                    <span class="nav-thumb-pic"></span>
+                    <span class="nav-title">账号总分布</span>
+                </a>
+            </li>
+
+            <li class="left-nav">
+                <a class="left-nav-title" href="/account/webchat" data-target="pseudo-base-station">
+                    <span class="nav-thumb-pic"></span>
+                    <span class="nav-title">微信公众号分布</span>
+                </a>
+            </li>
+
+            <li class="left-nav">
+                <a class="left-nav-title" href="/account/sinaweibo" data-target="pseudo-base-station">
+                    <span class="nav-thumb-pic"></span>
+                    <span class="nav-title">新浪微博分布</span>
+                </a>
+            </li>
+
+            <li class="left-nav active">
+                <a class="left-nav-title" href="/account/sinablog" data-target="pseudo-base-station">
+                    <span class="nav-thumb-pic"></span>
+                    <span class="nav-title">新浪博客分布</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+   <!-- <div class="left-menu-hand">
+        <a class="left-menu-hand-icon" href="javascript:void(0)"></a>
+    </div>-->
+</div>
+<div class="data-containter">
+    <div class="container-title">
+        <span class="title">新浪微博分布</span>
+    </div>
+    <div class="container">
+        <div class="draw-section ">
+            <div class="bank">
+                <div class="bank-content">
+
+                </div>
+            </div>
+        </div>
+        <!--<div class="remark ">
+            <div class="ndetail">
+                <div class="pro-list i-list">
+                    <div class="bank-cate">
+                        <ul class="clearfix detail-title">
+                            <li class="pull-left  right-nav right-title-one" >银行名称</li>
+                            <li class="pull-left  right-nav right-title-two">黑卡检测数量</li>
+                        </ul>
+                        <div class="bank-cate-content">
+                            <ul  class="detail-lilists bank-catelist">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="bank-cases">
+                        <p class="right-nav">用户举报短信</p>
+                        <div class="bank-case-content p10">
+                            <ul class="bank-case detail-lilists">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</div>
+<div class="browser">
+    <p class="browser-info">
+        您的浏览器太古老了，为了更好的获得体验效果
+        <br>
+        推荐使用谷歌浏览器或者IE9以上浏览器!
+        <br>
+        <a href="http://yeeton.com.cn" target="_self" class="back">回到首页</a>
+    </p>
+</div>
+</body>
+<script type="text/javascript" th:src="@{/oxxo/style/js/d3.min.js}"></script>
+<script type="text/javascript" th:src="@{/oxxo/style/js/public.js}"></script>
+<script type="text/javascript" th:src="@{/oxxo/style/js/bank.js}"></script>
+</html>

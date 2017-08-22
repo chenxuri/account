@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.spider.dao.AccountInfoRiskDao">
+
+<!--
+	`_id` bigint(20) NOT NULL,
+	`icon` varchar(255) DEFAULT NULL COMMENT '图标',
+	`image` varchar(255) DEFAULT NULL COMMENT '第二图标',
+	`url` varchar(255) NOT NULL COMMENT '访问地址',
+	`account_id` varchar(50) NOT NULL COMMENT '账号',
+	`account_name` varchar(255) NOT NULL COMMENT '账号名称',
+	`account_type` int(10) NOT NULL COMMENT '账号类型',
+	`account_type_name` varchar(255) NOT NULL COMMENT '账号类型名称',
+	`org_id` bigint(20) NOT NULL COMMENT '所属机构ID',
+	`org_name` varchar(255) NOT NULL COMMENT '所属机构名称',
+	`keywords` varchar(255) NOT NULL COMMENT '搜索的关键词',
+	`labels` varchar(255) DEFAULT NULL COMMENT '标签',
+	`renzhen` varchar(255) DEFAULT NULL COMMENT '认证信息',
+	`remarks` varchar(255) DEFAULT NULL COMMENT '描述',
+	`status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态：0未处置 1风险 2 官方 3 诈骗 ',
+	`create_time` datetime DEFAULT NULL COMMENT '添加时间',*/
+	-->
+
+
+	<!--@Column(name="account_nickname")
+	private String nickname;         //账号类型名称
+
+	@Column(name ="image_path")
+	private String imagePath;         //账号类型名称
+
+	private String account;         //账号类型名称-->
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.spider.domain.AccountInfo">
+		<result column="_id" property="id" />
+		<result column="icon" property="icon" />
+		<result column="image" property="image" />
+		<result column="account_name" property="accountName" />
+		<result column="account_id" property="accountId" />
+		<result column="account_type" property="accountType" />
+		<result column="account_type_name" property="accountTypeName" />
+		<result column="account_nickname" property="nickname" />
+		<result column="image_path" property="imagePath" />
+		<result column="type" property="type" />
+		<result column="type_name" property="typeName" />
+		<result column="org_id" property="organization.id" />
+		<result column="org_name" property="organization.name" />
+		<result column="keywords" property="keywords" />
+		<result column="labels" property="labels" />
+		<result column="renzhen" property="renzhen" />
+		<result column="remarks" property="remarks" />
+		<result column="url" property="url" />
+		<result column="status" property="status" />
+		<result column="create_time" property="createTime" />
+		<result column="check_time" property="checkTime" />
+	</resultMap>
+
+	<parameterMap id="AccountInfo" type="com.yeeton.modules.spider.domain.AccountInfo"/>
+
+	<sql id="Base_Column_List">
+		_id,
+		icon,
+		image,
+		account_name,
+		account_id,
+		account_type,
+		account_type_name,
+		account_nickname,
+		image_path,
+		type,
+		type_name,
+		org_id,
+		org_name,
+		keywords,
+		labels,
+		renzhen,
+		remarks,
+		url,
+		status,
+		check_time,
+		create_time
+	</sql>
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_info_risk a
+		WHERE a._id = #{id}
+	</select>
+
+
+	<select id="selectByPrimaryKeys" parameterType="java.lang.Long"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_info_find a
+		WHERE a._id  IN
+		<foreach collection="array" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</select>
+
+
+	<select id="select" parameterType="com.yeeton.modules.spider.domain.AccountInfo" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_info_risk a
+		<where>
+			<if test="keywords != null and keywords != ''">
+				AND a.keywords like  CONCAT('%',#{keywords},'%')
+			</if>
+			<if test="orgName != null and orgName != ''">
+				AND a.org_name like  CONCAT('%',#{orgName},'%')
+			</if>
+			<if test="accountName != null and accountName != ''">
+				AND a.account_name like  CONCAT('%',#{accountName},'%')
+			</if>
+			<if test="accountId != null and accountId != ''">
+				AND a.account_id like  CONCAT('%',#{accountId},'%')
+			</if>
+			<if test="accountType != null and accountType != ''">
+				AND a.account_type = #{accountType}
+			</if>
+			<if test="accountTypeName != null and accountTypeName != ''">
+				AND a.account_type_name = #{accountTypeName}
+			</if>
+			<if test="renzhen != null and renzhen != ''">
+				AND a.renzhen = #{renzhen}
+			</if>
+			<if test="organization != null">
+				<if test="organization.id != null and organization.id != ''">
+					AND a.org_id = #{organization.id}
+				</if>
+				<if test="organization.name != null and organization.name != ''">
+					AND a.org_name like CONCAT('%',#{organization.name},'%')
+				</if>
+			</if>
+		</where>
+
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_info_risk a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.spider.domain.AccountInfo" resultType="java.lang.Integer">
+		SELECT
+		COUNT(_id)
+		FROM account_info_risk a
+		<where>
+			<if test="keywords != null and keywords != ''">
+				AND a.keywords = #{keywords}
+			</if>
+			<if test="accountName != null and accountName != ''">
+				AND a.account_name = #{accountName}
+			</if>
+			<if test="renzhen != null and renzhen != ''">
+				AND a.renzhen = #{renzhen}
+			</if>
+			<if test="organization != null">
+				<if test="organization.id != null and organization.id != ''">
+					AND a.org_id = #{organization.id}
+				</if>
+				<if test="organization.name != null and organization.name != ''">
+					AND a.org_name like CONCAT('%',#{organization.name},'%')
+				</if>
+			</if>
+		</where>
+
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.spider.domain.AccountInfo">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT account_info_risk (
+			icon,
+			image,
+			account_name,
+			account_id,
+			account_type,
+			account_type_name,
+			account_nickname,
+			image_path,
+			type,
+			type_name,
+			org_id,
+			org_name,
+			keywords,
+			labels,
+			renzhen,
+			remarks,
+			url,
+			status,
+			check_time,
+			create_time
+		) VALUES (
+			#{icon},
+			#{image},
+			#{accountName},
+			#{accountId},
+			#{accountType},
+			#{accountTypeName},
+			#{nickname},
+			#{imagePath},
+			#{type},
+			#{typeName},
+			#{organization.id},
+			#{organization.name},
+			#{keywords},
+			#{labels},
+			#{renzhen},
+			#{remarks},
+			#{url},
+			#{status},
+			#{checkTime},
+			#{createTime}
+		)
+	</insert>
+
+	<insert id="insertBatch"  parameterType="java.util.List">
+
+		INSERT account_info_risk (
+			icon,
+			image,
+			account_name,
+			account_id,
+			account_type,
+			account_type_name,
+			account_nickname,
+			image_path,
+			type,
+			type_name,
+			org_id,
+			org_name,
+			keywords,
+			labels,
+			renzhen,
+			remarks,
+			url,
+			status,
+			check_time,
+			create_time
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.icon},
+			#{item.image},
+			#{item.accountName},
+			#{item.accountId},
+			#{item.accountType},
+			#{item.accountTypeName},
+			#{item.nickname},
+			#{item.imagePath},
+			#{item.type},
+			#{item.typeName},
+			#{item.organization.id},
+			#{item.organization.name},
+			#{item.keywords},
+			#{item.labels},
+			#{item.renzhen},
+			#{item.remarks},
+			#{item.url},
+			#{item.status},
+			#{item.checkTime},
+			#{item.createTime}
+			)
+		</foreach>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.yeeton.modules.spider.domain.AccountInfo">
+		UPDATE account_info_risk SET
+			icon = #{icon},
+			image = #{image},
+			account_name = #{accountName},
+			account_id = #{accountId},
+			account_type = #{accountType},
+			account_type_name = #{accountTypeName},
+			account_nickname = #{nickname},
+			image_path = #{imagePath},
+			type = #{type},
+			type_name = #{typeName},
+			org_id = #{organization.id},
+			org_name = #{organization.name},
+			keywords = #{keywords},
+			labels = #{labels},
+			renzhen = #{renzhen},
+			remarks = #{remarks},
+			url = #{url},
+			check_time = #{checkTime},
+			status = #{status}
+		WHERE _id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.spider.domain.AccountInfo">
+		UPDATE account_info_risk SET
+			icon = #{icon},
+			image = #{image},
+			account_name = #{accountName},
+			account_id = #{accountId},
+			account_type = #{accountType},
+			account_type_name = #{accountTypeName},
+			account_nickname = #{nickname},
+			image_path = #{imagePath},
+			type = #{type},
+			type_name = #{typeName},
+			org_id = #{organization.id},
+			org_name = #{organization.name},
+			keywords = #{keywords},
+			labels = #{labels},
+			renzhen = #{renzhen},
+			check_time = #{checkTime},
+			remarks = #{remarks}
+		WHERE _id IN
+		<foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.spider.domain.AccountInfo">
+		UPDATE account_info_risk SET
+			icon = #{icon},
+			image = #{image},
+			account_name = #{accountName},
+			account_id = #{accountId},
+			account_type = #{accountType},
+			account_type_name = #{accountTypeName},
+			account_nickname = #{nickname},
+			image_path = #{imagePath},
+			type = #{type},
+			type_name = #{typeName},
+			org_id = #{organization.id},
+			org_name = #{organization.name},
+			keywords = #{keywords},
+			labels = #{labels},
+			renzhen = #{renzhen},
+			check_time = #{checkTime},
+			remarks = #{remarks}
+		WHERE _id = #{id}
+	</update>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		DELETE FROM account_info_risk WHERE _id = #{id}
+	</delete>
+
+	<delete id="deleteByPrimaryKeyArray" parameterType="java.lang.Long">
+		DELETE FROM account_info_risk WHERE _id IN
+		<foreach collection="array" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.spider.domain.AccountInfo">
+		DELETE FROM account_info_risk
+		<where>
+			<if test="keywords != null and keywords != ''">
+				AND a.keywords = #{keywords}
+			</if>
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="accountName != null and accountName != ''">
+				AND a.account_name = #{accountName}
+			</if>
+			<if test="renzhen != null and renzhen != ''">
+				AND a.renzhen = #{renzhen}
+			</if>
+			<if test="organization != null">
+				<if test="organization.id != null and organization.id != ''">
+					AND a.org_id = #{organization.id}
+				</if>
+				<if test="organization.name != null and organization.name != ''">
+					AND a.org_name like CONCAT('%',#{organization.name},'%')
+				</if>
+			</if>
+		</where>
+
+	</delete>
+
+</mapper>

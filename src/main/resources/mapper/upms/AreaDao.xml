@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.upms.dao.AreaDao">
+
+	<!--`_id` mediumint(7) unsigned NOT NULL AUTO_INCREMENT,
+	`parent_id` mediumint(7) unsigned NOT NULL DEFAULT '0' COMMENT '父级ID',
+	`level` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '层级',
+	`zip_code` char(6) NOT NULL DEFAULT '' COMMENT '邮政编码',
+	`city_code` char(4) DEFAULT '' COMMENT '区号',
+	`area_code` varchar(20) NOT NULL DEFAULT '' COMMENT '行政代码',
+	`name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
+	`short_name` varchar(50) NOT NULL DEFAULT '' COMMENT '简称',
+	`merger_name` varchar(255) NOT NULL DEFAULT '' COMMENT '组合名',
+	`pinyin` varchar(100) NOT NULL DEFAULT '' COMMENT '拼音',
+	`lng` decimal(12,8) NOT NULL DEFAULT '0.00000000' COMMENT '经度',
+	`lat` decimal(12,8) NOT NULL DEFAULT '0.00000000' COMMENT '维度',-->
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.upms.domain.Area">
+		<result column="_id" property="id" />
+		<result column="parent_id" property="pid" />
+		<result column="level" property="level" />
+		<result column="zip_code" property="zipCode" />
+		<result column="city_code" property="cityCode" />
+		<result column="area_code" property="areaCode" />
+		<result column="name" property="name" />
+		<result column="short_name" property="shortName" />
+		<result column="merger_name" property="mergerName" />
+		<result column="pinyin" property="pinyin" />
+		<result column="lng" property="longitude" />
+		<result column="lat" property="latitude" />
+	</resultMap>
+
+	<parameterMap id="Webchat" type="com.yeeton.modules.upms.domain.Area"/>
+
+	<sql id="Base_Column_List">
+		_id,
+		parent_id,
+		level,
+		zip_code,
+		city_code,
+		area_code,
+		name,
+		short_name,
+		merger_name,
+		pinyin,
+		lng,
+		lat
+	</sql>
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_cnarea a
+		WHERE a._id = #{id}
+	</select>
+
+	<select id="select" parameterType="com.yeeton.modules.upms.domain.Area"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_cnarea a
+		WHERE 1=1
+		<if test="level != null and level != ''">
+			AND a.level = #{level}
+		</if>
+		<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+			AND a.created BETWEEN #{startCreated} AND #{endCreated}
+		</if>
+
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_cnarea a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.upms.domain.Area" resultType="java.lang.Integer">
+		SELECT
+		COUNT(_id)
+		FROM upms_cnarea a
+		WHERE 1=1
+			<if test="level != null and level != ''">
+				AND a.level = #{level}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.created BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.upms.domain.Area">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_cnarea (
+			parent_id,
+			level,
+			zip_code,
+			city_code,
+			area_code,
+			name,
+			short_name,
+			merger_name,
+			pinyin,
+			lng,
+			lat
+		) VALUES (
+			#{pid},
+			#{level},
+			#{zipCode},
+			#{cityCode},
+			#{areaCode},
+			#{name},
+			#{shortName},
+			#{mergerName},
+			#{pinyin},
+			#{longitude},
+			#{latitude}
+		)
+	</insert>
+
+	<insert id="insertBatch"  useGeneratedKeys="true" parameterType="java.util.List">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_cnarea (
+			parent_id,
+			level,
+			zip_code,
+			city_code,
+			area_code,
+			name,
+			short_name,
+			merger_name,
+			pinyin,
+			lng,
+			lat
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.pid},
+			#{item.level},
+			#{item.zipCode},
+			#{item.cityCode},
+			#{item.areaCode},
+			#{item.name},
+			#{item.shortName},
+			#{item.mergerName},
+			#{item.pinyin},
+			#{item.longitude},
+			#{item.latitude}
+			)
+		</foreach>
+	</insert>
+
+
+	<update id="updateByPrimaryKey" parameterType="com.yeeton.modules.upms.domain.Area">
+		UPDATE upms_cnarea SET
+			parent_id = #{pid},
+			level = #{level},
+			zip_code = #{zipCode},
+			city_code = #{cityCode},
+			area_code = #{areaCode},
+			name = #{name},
+			short_name = #{shortName},
+			merger_name = #{mergerName},
+			pinyin = #{pinyin},
+			lng = #{longitude},
+			lat = #{latitude}
+		WHERE _id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.upms.domain.Area">
+		UPDATE upms_cnarea SET
+			parent_id = #{pid},
+			level = #{level},
+			zip_code = #{zipCode},
+			city_code = #{cityCode},
+			area_code = #{areaCode},
+			name = #{name},
+			short_name = #{shortName},
+			merger_name = #{mergerName},
+			pinyin = #{pinyin},
+			lng = #{longitude},
+			lat = #{latitude}
+		WHERE _id IN
+		<foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.upms.domain.Area">
+		UPDATE upms_cnarea SET
+			parent_id = #{pid},
+			level = #{level},
+			zip_code = #{zipCode},
+			city_code = #{cityCode},
+			area_code = #{areaCode},
+			name = #{name},
+			short_name = #{shortName},
+			merger_name = #{mergerName},
+			pinyin = #{pinyin},
+			lng = #{longitude},
+			lat = #{latitude}
+		WHERE _id = #{id}
+	</update>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		DELETE FROM upms_cnarea WHERE _id = #{id}
+	</delete>
+
+	<delete id="deleteByPrimaryKeyArray" parameterType="java.lang.Long">
+		DELETE FROM upms_cnarea WHERE _id IN
+		<foreach collection="array" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.upms.domain.Area">
+		DELETE FROM upms_cnarea
+			WHERE
+		<if test="areaCode != null and areaCode != ''">
+			AND a.area_code = #{areaCode}
+		</if>
+		<if test="level != null and level != ''">
+			AND a.level = #{level}
+		</if>
+	</delete>
+
+</mapper>

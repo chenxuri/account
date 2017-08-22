@@ -1,0 +1,137 @@
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
+<body>
+<section  layout:fragment="content">
+
+    <!-- begin #content -->
+    <div id="content" class="content">
+
+        <div class="row">
+            <form class="form-horizontal form-search" >
+                <div class="form-group m-b-5">
+                    <label class="col-md-2 control-label">机构</label>
+                    <div class="col-md-3">
+                        <input type="text" id="orgName"  class="form-control" placeholder="机构" name="orgName"/>
+                    </div>
+                    <label class="col-md-2 control-label">关键词</label>
+                    <div class="col-md-3">
+                        <input type="text" id="keywords" class="form-control" placeholder="关键词" name="keywords"/>
+                    </div>
+                    <button type="button" id="conditionquery" class="btn btn-success width-100 m-r-5">查询</button>
+
+                </div>
+
+            </form>
+        </div>
+
+        <!-- begin section-container -->
+        <div class="section-container section-with-top-border">
+            <div class="clearfix m-b-20">
+                <a href="#modal-add" class="btn btn-success m-r-5 m-b-5" data-toggle="modal">添加</a>
+                <a href="javascript:;" class="btn btn-success m-r-5 m-b-5" onclick="remove()">删除</a>
+            </div>
+            <!-- begin panel -->
+            <div class="panel pagination-inverse m-b-0">
+                <table id="table"
+                       class="table-bordered"
+                       data-toggle="table"
+                       data-url="/account/keywords/list"
+                       data-side-pagination="server"
+                       data-pagination="true"
+                       data-click-to-select="true"
+                       data-unique-id="index"
+                       uniqueId= "id"
+                       data-query-params="queryParams"
+                       data-page-list="[20, 50, 100, 200]"
+                       >
+                    <thead>
+                    <tr>
+                        <th data-field="checkbox" data-align="center" data-valign="middle" data-class="icheck" data-checkbox="true"></th>
+                        <th data-field="index"  data-align="center" data-valign="middle" data-formatter="indexfuncton">序号</th>
+                        <th data-field="orgName" data-align="center" data-valign="middle" >机构</th>
+                        <th data-field="keywords" data-align="center" data-valign="middle">关键词</th>
+                        <th data-field="createTime" data-align="center" data-valign="middle">创建时间</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end section-container -->
+
+        <!-- begin #footer -->
+<!--
+        <div th:replace="layout/layout :: footer"></div>
+-->
+        <!-- end #footer -->
+    <!-- end #content -->
+
+    </div>
+<!-- end page container -->
+<!--modal start-->
+    <div class="modal fade" id="modal-add">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">添加关键词</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal" id="form-add">
+                        <div class="form-group m-b-10">
+                            <label class="col-md-3 control-label">机构</label>
+                            <div class="col-md-7">
+                                <input type="text"  class="form-control" placeholder="机构" name="orgName"
+                                       data-parsley-trigger="change"
+                                       data-parsley-required="true"
+                                       data-parsley-required-message="机构不可为空"
+                                       data-parsley-minlength="6"
+                                       data-parsley-minlength-message="机构名不能少于6个字符"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group m-b-10">
+                            <label class="col-md-3 control-label">关键词</label>
+                            <div class="col-md-7">
+                                <input type="text"  class="form-control" placeholder="关键词" name="keywords"
+                                       data-parsley-trigger="change"
+                                       data-parsley-required="true"
+                                       data-parsley-required-message="关键词不可为空"
+                                       data-parsley-minlength="6"
+                                       data-parsley-minlength-message="关键词不能少于6个字符"
+                                />
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn width-100 btn-primary" onclick="add()">确定</a>
+                    <a href="javascript:;" class="btn width-100 btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- ================== END PAGE LEVEL JS ================== -->
+<script type='text/javascript'>//<![CDATA[
+function queryParams(params) {
+    return {
+        tm:new Date().getTime(),
+        pageNum: params.pageNum,
+        pageSize: params.pageSize,
+        search: params.search,
+        sort: params.sort,
+        order: params.order,
+        orgName:$("#orgName").val(),
+        keywords:$("#keywords").val()
+    };
+}
+//]]>
+</script>
+<script th:src="@{/modules/spider/keywords/list.js}"></script>
+</section>
+</body>
+</html>

@@ -1,0 +1,60 @@
+server:
+  port: 8082
+  context-path: /account
+spring:
+#thymeleaf start
+  thymeleaf:
+    cache: false
+#    prefix: /templates/
+#    mode: HTML5
+#    content-type: text/html
+    encoding: utf-8
+  rabbitmq:
+    host: 127.0.0.1
+    username: guest
+    password: guest
+    port: 5672
+  redis:
+      database: 0
+      host: 127.0.0.1
+      port: 6379
+      password:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+      timeout: 0
+#thymeleaf end
+
+## master 数据源配置
+master:
+  datasource:
+    url: jdbc:mysql://localhost:3306/phishshow?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123qwe
+    driverClassName: com.mysql.jdbc.Driver
+## cluster 数据源配置
+cluster:
+  datasource:
+    url: jdbc:mysql://localhost:3306/yeeton_account?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: 123qwe
+    driverClassName: com.mysql.jdbc.Driver
+## pagehelper 配置
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+#开MYBATIS日志打印 修改level及包名级别为debug 设置日志保存目录
+# LOGGING
+#logging:
+#  level:
+#    com.yeeton.modules.*.dao: DEBUG
+
+#logging:
+#  level:
+#    net.vv2.baby.mapper: DEBUG
+#  file: var/log/myapp.log
+

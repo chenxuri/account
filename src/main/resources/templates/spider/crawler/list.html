@@ -1,0 +1,181 @@
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
+<body>
+<section  layout:fragment="content">
+
+    <div id="content" class="content">
+        <div class="row">
+            <form class="form-horizontal" id="form-search" >
+                <div class="form-group m-b-5">
+                    <label class="col-md-2 control-label">爬虫名称</label>
+                    <div class="col-md-3">
+                        <input type="text" id="crawler"  class="form-control" placeholder="爬虫名称" name="crawler"/>
+                    </div>
+
+                    <button type="button" id="conditionquery" class="btn btn-success width-100 m-r-5">查询</button>
+
+                </div>
+            </form>
+        </div>
+
+        <!-- begin section-container -->
+        <div class="section-container section-with-top-border">
+            <div class="clearfix m-b-20">
+                <a href="#modal-add" class="btn btn-success m-r-5 m-b-5" data-toggle="modal">添加</a>
+                <a href="javascript:;" class="btn btn-success m-r-5 m-b-5" onclick="remove()">删除</a>
+               <!-- <a href="javascript:;" class="btn btn-success m-r-5 m-b-5" onclick="start()">启动</a>
+                <a href="javascript:;" class="btn btn-success m-r-5 m-b-5" onclick="stop()">停止</a>-->
+                <!---->
+            </div>
+            <!-- begin panel -->
+            <div class="panel pagination-inverse m-b-0">
+
+                <table id="bootstrapTable"></table>
+
+            </div>
+            <!-- end panel -->
+        </div>
+    </div>
+
+    <!--modal start-->
+    <div class="modal fade" id="modal-add">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">添加账号爬虫</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-horizontal" id="form-add">
+                        <div class="form-group m-b-10">
+                            <label class="col-md-3 control-label">爬虫</label>
+                            <div class="col-md-7">
+                                <input type="text"  class="form-control" placeholder="爬虫" name="crawler"
+                                       data-parsley-trigger="change"
+                                       data-parsley-required="true"
+                                       data-parsley-required-message="爬虫不可为空"
+                                       data-parsley-minlength="2"
+                                       data-parsley-minlength-message="爬虫不能少于2个字符"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group m-b-10">
+                            <label class="col-md-3 control-label">编码</label>
+                            <div class="col-md-7">
+                                <input type="text"  class="form-control" placeholder="编码" name="code"
+                                       data-parsley-trigger="change"
+                                       data-parsley-required="true"
+                                       data-parsley-required-message="编码不可为空"
+                                       data-parsley-minlength="2"
+                                       data-parsley-minlength-message="编码不能少于2个字符"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group m-b-10">
+                            <label class="col-md-3 control-label">类型编码</label>
+                            <div class="col-md-7">
+                                <input type="text"  class="form-control" placeholder="编码" name="type"
+                                       data-parsley-trigger="change"
+                                       data-parsley-required="true"
+                                       data-parsley-required-message="编码不可为空"
+                                       data-parsley-minlength="2"
+                                       data-parsley-minlength-message="编码不能少于2个字符"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group m-b-10">
+                            <label class="col-md-3 control-label">账号类型</label>
+                            <div class="col-md-7">
+                                <select name="accountType" class="single-select2 form-control"
+                                        data-parsley-required="true"
+                                        data-parsley-required-message="类型不可为空">
+                                    <option th:each="crawlerType : ${crawlerTypeList}"
+                                            th:value="${crawlerType.value}" th:text="${crawlerType.name}">类型</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group m-b-10">
+                            <label class="col-md-3 control-label">URL地址</label>
+                            <div class="col-md-7">
+                                <input type="url"  class="form-control" placeholder="URL地址" name="url"
+                                       data-parsley-trigger="change"
+                                       data-parsley-required="true"
+                                       data-parsley-required-message="关键词不可为空"
+                                       data-parsley-type="url"
+                                       data-parsley-type-message="必须是法的URL地址"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group m-b-10">
+                            <label class="col-md-3 control-label">Cookie</label>
+                            <div class="col-md-7">
+                                <textarea class="form-control" name="cookie" rows="4" placeholder="Cookie"
+                                       data-parsley-trigger="change"
+                                       data-parsley-required="true"
+                                       data-parsley-required-message="Cookie不可为空"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn width-100 btn-primary" onclick="add()">确定</a>
+                    <a href="javascript:;" class="btn width-100 btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--modal start-->
+    <div class="modal fade" id="modal-modify_cookie">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">添加账号爬虫的Cookie</h4>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" name="id">
+                    <form class="form-horizontal" id="form-cookie">
+                        <div class="form-group m-b-10">
+                            <label class="col-md-3 control-label">爬虫</label>
+                            <div class="col-md-7">
+                                <input type="text"  class="form-control" placeholder="爬虫" name="crawler"
+                                       data-parsley-trigger="change"
+                                       data-parsley-required="true"
+                                       data-parsley-required-message="爬虫不可为空"
+                                       data-parsley-minlength="2"
+                                       data-parsley-minlength-message="爬虫不能少于2个字符"
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-group m-b-10">
+                            <label class="col-md-3 control-label">Cookie</label>
+                            <div class="col-md-7">
+                                <textarea class="form-control" name="cookie" rows="4" placeholder="Cookie"
+                                          data-parsley-trigger="change"
+                                          data-parsley-required="true"
+                                          data-parsley-required-message="Cookie不可为空"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn width-100 btn-primary" onclick="modifyCookie()">确定</a>
+                    <a href="javascript:;" class="btn width-100 btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/modules/spider/crawler/index.js}"></script>
+</section>
+
+</body>
+</html>

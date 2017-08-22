@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<!--[if !IE]><!-->
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<!--<![endif]-->
+<head th:replace="layout/layout :: htmlhead(title='亿盾诈骗公众号侦测系统')"></head>
+
+<body>
+<!-- begin #page-loader -->
+<div id="page-loader" class="page-loader fade in"><span class="spinner">加载中...</span></div>
+<!-- end #page-loader -->
+
+<!-- begin #page-container -->
+<div id="page-container" class="fade page-container page-header-fixed page-sidebar-fixed page-with-two-sidebar page-with-footer">
+    <!-- begin #header -->
+    <div th:replace="layout/layout :: header(title='亿盾诈骗公众号侦测系统')"></div>
+
+    <!-- end #header -->
+
+    <!-- begin #sidebar -->
+    <div th:replace="layout/layout :: sidebar"></div>
+
+    <div class="sidebar-bg"></div>
+    <!-- end #sidebar -->
+
+    <!-- begin #content -->
+    <div id="content" class="content">
+
+
+        <!-- begin section-container -->
+        <div class="section-container section-with-top-border">
+            <p class="m-b-20">
+                This example is the combination of <b>Autofill</b>, <b>Buttons</b>, <b>ColReorder</b>, <b>KeyTable</b>, <b>Responsive</b>, <b>RowReorder</b> & <b>Select</b>.
+            </p>
+            <!-- begin panel -->
+            <div class="panel pagination-inverse clearfix m-b-0">
+                <table id="data-table" data-order='[[1,"asc"]]' class="table table-bordered table-hover">
+                    <thead>
+                    <tr class="inverse">
+                        <th data-sorting="disabled"></th>
+                        <th>Rendering engine</th>
+                        <th>Browser</th>
+                        <th>Platform(s)</th>
+                        <th>Engine version</th>
+                        <th>CSS grade</th>
+                        <th data-sorting="disabled"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="odd gradeX">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Trident</td>
+                        <td>Internet Explorer 4.0</td>
+                        <td>Win 95+</td>
+                        <td>4</td>
+                        <td>X</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="even gradeC">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Trident</td>
+                        <td>Internet Explorer 5.0</td>
+                        <td>Win 95+</td>
+                        <td>5</td>
+                        <td>C</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="odd gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Trident</td>
+                        <td>Internet Explorer 5.5</td>
+                        <td>Win 95+</td>
+                        <td>5.5</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="even gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Trident</td>
+                        <td>Internet Explorer 6</td>
+                        <td>Win 98+</td>
+                        <td>6</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="odd gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Trident</td>
+                        <td>Internet Explorer 7</td>
+                        <td>Win XP SP2+</td>
+                        <td>7</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="even gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Trident</td>
+                        <td>AOL browser (AOL desktop)</td>
+                        <td>Win XP</td>
+                        <td>6</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Firefox 1.0</td>
+                        <td>Win 98+ / OSX.2+</td>
+                        <td>1.7</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Firefox 1.5</td>
+                        <td>Win 98+ / OSX.2+</td>
+                        <td>1.8</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Firefox 2.0</td>
+                        <td>Win 98+ / OSX.2+</td>
+                        <td>1.8</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Firefox 3.0</td>
+                        <td>Win 2k+ / OSX.3+</td>
+                        <td>1.9</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Camino 1.0</td>
+                        <td>OSX.2+</td>
+                        <td>1.8</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Camino 1.5</td>
+                        <td>OSX.3+</td>
+                        <td>1.8</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Netscape 7.2</td>
+                        <td>Win 95+ / Mac OS 8.6-9.2</td>
+                        <td>1.7</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Netscape Browser 8</td>
+                        <td>Win 98SE+</td>
+                        <td>1.7</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Netscape Navigator 9</td>
+                        <td>Win 98+ / OSX.2+</td>
+                        <td>1.8</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Mozilla 1.0</td>
+                        <td>Win 95+ / OSX.1+</td>
+                        <td>1</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Mozilla 1.1</td>
+                        <td>Win 95+ / OSX.1+</td>
+                        <td>1.1</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Mozilla 1.2</td>
+                        <td>Win 95+ / OSX.1+</td>
+                        <td>1.2</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Mozilla 1.3</td>
+                        <td>Win 95+ / OSX.1+</td>
+                        <td>1.3</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Mozilla 1.4</td>
+                        <td>Win 95+ / OSX.1+</td>
+                        <td>1.4</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Mozilla 1.5</td>
+                        <td>Win 95+ / OSX.1+</td>
+                        <td>1.5</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Mozilla 1.6</td>
+                        <td>Win 95+ / OSX.1+</td>
+                        <td>1.6</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Mozilla 1.7</td>
+                        <td>Win 98+ / OSX.1+</td>
+                        <td>1.7</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Mozilla 1.8</td>
+                        <td>Win 98+ / OSX.1+</td>
+                        <td>1.8</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Seamonkey 1.1</td>
+                        <td>Win 98+ / OSX.2+</td>
+                        <td>1.8</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Gecko</td>
+                        <td>Epiphany 2.20</td>
+                        <td>Gnome</td>
+                        <td>1.8</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Webkit</td>
+                        <td>Safari 1.2</td>
+                        <td>OSX.3</td>
+                        <td>125.5</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Webkit</td>
+                        <td>Safari 1.3</td>
+                        <td>OSX.3</td>
+                        <td>312.8</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Webkit</td>
+                        <td>Safari 2.0</td>
+                        <td>OSX.4+</td>
+                        <td>419.3</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Webkit</td>
+                        <td>Safari 3.0</td>
+                        <td>OSX.4+</td>
+                        <td>522.1</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Webkit</td>
+                        <td>OmniWeb 5.5</td>
+                        <td>OSX.4+</td>
+                        <td>420</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Webkit</td>
+                        <td>iPod Touch / iPhone</td>
+                        <td>iPod</td>
+                        <td>420.1</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Webkit</td>
+                        <td>S60</td>
+                        <td>S60</td>
+                        <td>413</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Presto</td>
+                        <td>Opera 7.0</td>
+                        <td>Win 95+ / OSX.1+</td>
+                        <td>-</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Presto</td>
+                        <td>Opera 7.5</td>
+                        <td>Win 95+ / OSX.2+</td>
+                        <td>-</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Presto</td>
+                        <td>Opera 8.0</td>
+                        <td>Win 95+ / OSX.2+</td>
+                        <td>-</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Presto</td>
+                        <td>Opera 8.5</td>
+                        <td>Win 95+ / OSX.2+</td>
+                        <td>-</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Presto</td>
+                        <td>Opera 9.0</td>
+                        <td>Win 95+ / OSX.3+</td>
+                        <td>-</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Presto</td>
+                        <td>Opera 9.2</td>
+                        <td>Win 88+ / OSX.3+</td>
+                        <td>-</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Presto</td>
+                        <td>Opera 9.5</td>
+                        <td>Win 88+ / OSX.3+</td>
+                        <td>-</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Presto</td>
+                        <td>Opera for Wii</td>
+                        <td>Wii</td>
+                        <td>-</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Presto</td>
+                        <td>Nokia N800</td>
+                        <td>N800</td>
+                        <td>-</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Presto</td>
+                        <td>Nintendo DS browser</td>
+                        <td>Nintendo DS</td>
+                        <td>8.5</td>
+                        <td>C/A<sup>1</sup></td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeC">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>KHTML</td>
+                        <td>Konqureror 3.1</td>
+                        <td>KDE 3.1</td>
+                        <td>3.1</td>
+                        <td>C</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>KHTML</td>
+                        <td>Konqureror 3.3</td>
+                        <td>KDE 3.3</td>
+                        <td>3.3</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>KHTML</td>
+                        <td>Konqureror 3.5</td>
+                        <td>KDE 3.5</td>
+                        <td>3.5</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeX">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Tasman</td>
+                        <td>Internet Explorer 4.5</td>
+                        <td>Mac OS 8-9</td>
+                        <td>-</td>
+                        <td>X</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeC">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Tasman</td>
+                        <td>Internet Explorer 5.1</td>
+                        <td>Mac OS 7.6-9</td>
+                        <td>1</td>
+                        <td>C</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeC">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Tasman</td>
+                        <td>Internet Explorer 5.2</td>
+                        <td>Mac OS 8-X</td>
+                        <td>1</td>
+                        <td>C</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Misc</td>
+                        <td>NetFront 3.1</td>
+                        <td>Embedded devices</td>
+                        <td>-</td>
+                        <td>C</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Misc</td>
+                        <td>NetFront 3.4</td>
+                        <td>Embedded devices</td>
+                        <td>-</td>
+                        <td>A</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeX">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Misc</td>
+                        <td>Dillo 0.8</td>
+                        <td>Embedded devices</td>
+                        <td>-</td>
+                        <td>X</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeX">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Misc</td>
+                        <td>Links</td>
+                        <td>Text only</td>
+                        <td>-</td>
+                        <td>X</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeX">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Misc</td>
+                        <td>Lynx</td>
+                        <td>Text only</td>
+                        <td>-</td>
+                        <td>X</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeC">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Misc</td>
+                        <td>IE Mobile</td>
+                        <td>Windows Mobile 6</td>
+                        <td>-</td>
+                        <td>C</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeC">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Misc</td>
+                        <td>PSP browser</td>
+                        <td>PSP</td>
+                        <td>-</td>
+                        <td>C</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    <tr class="gradeU">
+                        <td><input type="checkbox" name="record[]" value="1" /></td>
+                        <td>Other browsers</td>
+                        <td>All others</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>U</td>
+                        <td><a href="#" class="btn btn-default btn-xs"><i class="fa fa-cog"></i> Setting</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end section-container -->
+
+        <!-- begin #footer -->
+        <div th:replace="layout/layout :: footer"></div>
+        <!-- end #footer -->
+    </div>
+    <!-- end #content -->
+
+</div>
+<!-- end page container -->
+
+<!-- begin theme-panel -->
+<div th:replace="layout/layout :: themePanel"></div>
+<!-- end theme-panel -->
+
+<!-- ================== BEGIN BASE JS ================== -->
+<script th:src="@{/sourceAdmin/assets/plugins/jquery/jquery-1.9.1.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/jquery/jquery-migrate-1.1.0.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/jquery-ui/ui/minified/jquery-ui.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<!--[if lt IE 9]>
+<script th:src="@{/sourceAdmin/assets/crossbrowserjs/html5shiv.js}"></script>
+<script th:src="@{/sourceAdmin/assets/crossbrowserjs/respond.min.js}"></script>
+<![endif]-->
+<script th:src="@{/sourceAdmin/assets/plugins/slimscroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/jquery-cookie/jquery.cookie.js}"></script>
+<!-- ================== END BASE JS ================== -->
+
+<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+<script th:src="@{/sourceAdmin/assets/plugins/bootstrap-calendar/js/bootstrap_calendar.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/sparkline/jquery.sparkline.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/flot/jquery.flot.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/flot/jquery.flot.time.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/flot/jquery.flot.resize.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/flot/jquery.flot.pie.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/flot/jquery.flot.stack.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/flot/jquery.flot.crosshair.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/flot/jquery.flot.categories.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/flot/CurvedLines/curvedLines.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/jquery-jvectormap/jquery-jvectormap-1.2.2.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/jquery-jvectormap/jquery-jvectormap-world-merc-en.js}"></script>
+<script th:src="@{/sourceAdmin/assets/plugins/gritter/js/jquery.gritter.js}"></script>
+<script th:src="@{/sourceAdmin/assets/js/page-index.demo.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/js/demo.min.js}"></script>
+<script th:src="@{/sourceAdmin/assets/js/apps.min.js}"></script>
+<!-- ================== END PAGE LEVEL JS ================== -->
+
+<script>
+    $(document).ready(function() {
+        App.init();
+        Demo.init();
+        PageDemo.init();
+    });
+</script>
+</body>
+</html>

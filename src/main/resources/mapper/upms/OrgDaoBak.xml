@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.upms.dao.OrgDao2">
+
+<!--
+
+
+  /*   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `szname` varchar(64) CHARACTER SET gb2312 NOT NULL,
+  `ninduid` int(10) unsigned DEFAULT NULL,
+  `nprovinceid` int(10) unsigned DEFAULT NULL,
+  `szip` varchar(30) CHARACTER SET gb2312 DEFAULT NULL,
+  `szalias` varchar(256) CHARACTER SET gb2312 DEFAULT NULL COMMENT '别名',
+            `szReserved` varchar(256) CHARACTER SET gb2312 DEFAULT NULL,
+  `longitude` double(12,7) DEFAULT NULL,
+  `latitude` double(12,7) DEFAULT NULL,
+  `orglocation` varchar(100) DEFAULT NULL,
+  `location_fid` varchar(32) DEFAULT NULL,
+  `orglocationall` varchar(255) DEFAULT NULL,
+  `subindu` int(10) DEFAULT '0',
+            `customer` int(2) DEFAULT '0',
+            `level` int(10) DEFAULT '0',*/
+
+
+  private String name;
+  private Integer induId;
+  private Integer provinceId;
+  private String ip;
+  private String alias;
+  private Double longitude;
+  private Double latitude;
+  private String orglocation;
+  private String locationFid;
+  private String orglocationall;
+  private String indu;
+  private Integer customer;
+  private Integer level;
+-->
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.upms.domain.Org">
+		<result column="id" property="id" />
+		<result column="szname" property="name" />
+		<result column="ninduid" property="induId" />
+		<result column="industry" property="industry" />
+		<result column="nprovinceid" property="provinceId" />
+		<result column="szip" property="ip" />
+		<result column="szalias" property="alias" />
+		<result column="longitude" property="longitude" />
+		<result column="latitude" property="latitude" />
+		<result column="orglocation" property="orglocation" />
+		<result column="location_fid" property="locationFid" />
+		<result column="orglocationall" property="orglocationall" />
+		<result column="subindu" property="indu" />
+		<result column="customer" property="customer" />
+		<result column="level" property="level" />
+	</resultMap>
+
+	<parameterMap id="org" type="com.yeeton.modules.upms.domain.Org"/>
+
+	<sql id="Base_Column_List">
+		id,
+		szname,
+		ninduid,
+		nprovinceid,
+		szip,
+		szalias,
+		longitude,
+		latitude,
+		orglocation,
+		location_fid,
+		orglocationall,
+		subindu,
+		customer,
+		level
+	</sql>
+
+	<sql id="full_Column_List">
+		a.id,
+		a.szname,
+		a.ninduid,
+		a.nprovinceid,
+		a.szip,
+		a.szalias,
+		a.longitude,
+		a.latitude,
+		a.orglocation,
+		a.location_fid,
+		a.orglocationall,
+		a.subindu,
+		a.customer,
+		a.level
+	</sql>
+
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="full_Column_List"/>
+		FROM org a
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="selectOptions"   resultMap="BaseResultMap">
+		SELECT
+		id,
+		szname,
+		szalias,
+		longitude,
+		latitude,
+		orglocation
+		FROM org a
+	</select>
+
+	<select id="select" parameterType="com.yeeton.modules.upms.domain.Org"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="full_Column_List"/>
+		,
+		i.szname as industry
+		FROM org a
+	    LEFT JOIN indu i on a.ninduid = i.id
+		<where>
+			<if test="name != null and name != ''">
+				AND a.name  like  CONCAT('%',#{name},'%')
+			</if>
+
+		</where>
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM org a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.upms.domain.Org" resultType="java.lang.Integer">
+		SELECT
+		COUNT(id)
+		FROM org a
+		WHERE 1=1
+
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.upms.domain.Org">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT org (
+			szname,
+			ninduid,
+			nprovinceid,
+			szip,
+			szalias,
+			longitude,
+			latitude,
+			orglocation,
+			location_fid,
+			orglocationall,
+			subindu,
+			remarks,
+			customer
+		) VALUES (
+			#{name},
+			#{induId},
+			#{provinceId},
+			#{ip},
+			#{alias},
+			#{longitude},
+			#{latitude},
+			#{orglocation},
+			#{locationFid},
+			#{orglocationall},
+			#{indu},
+			#{customer}
+		)
+	</insert>
+
+	<!--private String name;
+	private Integer induId;
+	private Integer provinceId;
+	private String ip;
+	private String alias;
+	private Double longitude;
+	private Double latitude;
+	private String orglocation;
+	private String locationFid;
+	private String orglocationall;
+	private String indu;
+	private Integer customer;
+	private Integer level;-->
+
+	<insert id="insertBatch"  useGeneratedKeys="true" parameterType="java.util.List">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT org (
+			szname,
+			ninduid,
+			nprovinceid,
+			szip,
+			szalias,
+			longitude,
+			latitude,
+			orglocation,
+			location_fid,
+			orglocationall,
+			subindu,
+			customer,
+			level
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.name},
+			#{item.induId},
+			#{item.provinceId},
+			#{item.ip},
+			#{item.alias},
+			#{item.longitude},
+			#{item.latitude},
+			#{item.orglocation},
+			#{item.locationFid},
+			#{item.orglocationall},
+			#{item.subindu},
+			#{item.customer},
+			#{item.level}
+			)
+		</foreach>
+	</insert>
+
+
+	<update id="updateByPrimaryKey" parameterType="com.yeeton.modules.upms.domain.Org">
+		UPDATE org SET
+			szname = #{name},
+			ninduid = #{induId},
+			nprovinceid = #{provinceId},
+			szip = #{ip},
+			szalias = #{alias},
+			longitude = #{longitude},
+			latitude = #{latitude},
+			orglocation = #{orglocation},
+			location_fid = #{locationFid},
+			orglocationall = #{orglocationall},
+			indu = #{subindu},
+			customer = #{customer},
+			level = #{level}
+		WHERE id = #{id}
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.upms.domain.Org">
+		UPDATE org SET
+			szname = #{name},
+			ninduid = #{induId},
+			nprovinceid = #{provinceId},
+			szip = #{ip},
+			szalias = #{alias},
+			longitude = #{longitude},
+			latitude = #{latitude},
+			orglocation = #{orglocation},
+			location_fid = #{locationFid},
+			orglocationall = #{orglocationall},
+			indu = #{subindu},
+			customer = #{customer},
+			level = #{level}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.upms.domain.Org">
+		UPDATE org SET
+			szname = #{name},
+			ninduid = #{induId},
+			nprovinceid = #{provinceId},
+			szip = #{ip},
+			szalias = #{alias},
+			longitude = #{longitude},
+			latitude = #{latitude},
+			orglocation = #{orglocation},
+			location_fid = #{locationFid},
+			orglocationall = #{orglocationall},
+			indu = #{subindu},
+			customer = #{customer},
+			level = #{level}
+		WHERE id IN
+		<foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		DELETE FROM org WHERE _id = #{id}
+	</delete>
+
+	<delete id="deleteByPrimaryKeyArray" parameterType="java.lang.Long">
+		DELETE FROM org WHERE _id IN
+		<foreach collection="array" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.upms.domain.Org">
+		DELETE FROM org a
+			WHERE
+
+		<if test="name != null and name != ''">
+			AND a.name = #{name}
+		</if>
+	</delete>
+
+</mapper>

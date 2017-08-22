@@ -1,0 +1,183 @@
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
+<body>
+<section  layout:fragment="content">
+
+    <div id="content" class="content">
+        <div class="row">
+            <form class="form-horizontal" id="form-search" >
+                <div class="form-group m-b-5">
+                    <label class="col-md-2 control-label" for="accountId">账号</label>
+                    <div class="col-md-3">
+                        <input type="text" id="accountId"  class="form-control" placeholder="账号" name="accountId"/>
+                    </div>
+                    <label class="col-md-2 control-label" for="accountName">账号名称</label>
+                    <div class="col-md-3">
+                        <input type="text" id="accountName" class="form-control" placeholder="账号名称" name="accountName"/>
+                    </div>
+
+                </div>
+                <div class="form-group m-b-5">
+                    <label class="col-md-2 control-label" for="accountId">关键字</label>
+                    <div class="col-md-3">
+                        <input type="text" id="keywords"  class="form-control" placeholder="关键字" name="keywords"/>
+                    </div>
+                    <label class="col-md-2 control-label" for="accountName">机构名称</label>
+                    <div class="col-md-3">
+                        <input type="text" id="orgName" class="form-control" placeholder="机构名称" name="orgName"/>
+                    </div>
+                    <button type="button" id="conditionquery" class="btn btn-success width-100 m-r-5">查询</button>
+
+                </div>
+            </form>
+        </div>
+
+        <!-- begin section-container -->
+        <div class="section-container section-with-top-border">
+            <div class="clearfix m-b-20">
+                <a href="#modal-add" class="btn btn-success m-r-5 m-b-5" data-toggle="modal">添加</a>
+                <a href="javascript:;" class="btn btn-success m-r-5 m-b-5" onclick="remove()">删除</a>
+                <!-- <a href="javascript:;" class="btn btn-success m-r-5 m-b-5" onclick="start()">启动</a>
+                 <a href="javascript:;" class="btn btn-success m-r-5 m-b-5" onclick="stop()">停止</a>-->
+                <!--<a href="javascript:;" class="btn btn-success m-r-5 m-b-5" onclick="remove()">删除</a>-->
+            </div>
+            <!-- begin panel -->
+            <div class="panel pagination-inverse m-b-0">
+
+                <table id="bootstrapTable"></table>
+
+            </div>
+            <!-- end panel -->
+        </div>
+    </div>
+
+
+    <!--modal start-->
+    <div class="modal fade" id="modal-add">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">添加账号白名单</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-input-flat"  id="form-add">
+                        <!-- begin row -->
+                        <div class="row">
+                            <!-- begin col-6 -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">账号ID</label>
+                                    <input type="text" name="accountId" class="form-control"
+                                           data-parsley-trigger="blur"
+                                           data-parsley-required="true"
+                                           data-parsley-required-message="账号ID不可为空"
+                                           data-parsley-type="alphanum"
+                                           data-parsley-type-message="账号ID不能包含汉字或特殊字符"
+                                          />
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">账号名称</label>
+                                    <input type="text" name="accountName" class="form-control"
+                                           data-parsley-trigger="blur"
+                                           data-parsley-required="true"
+                                           data-parsley-required-message="账号名称不可为空"
+                                           />
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">所属机构</label>
+                                    <select name="orgId" class="single-select2 form-control"
+                                            data-parsley-required="true"
+                                            data-parsley-required-message="机构不可为空">
+                                        <option th:each="org : ${orgList}"
+                                                th:value="${org.id}" th:text="${org.name}">机构</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+                            <!-- end col-6 -->
+                            <!-- begin col-6 -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">账号别名</label>
+                                    <input type="text" name="nickname" class="form-control"
+                                           data-parsley-trigger="blur"
+                                           data-parsley-required="true"
+                                           data-parsley-required-message="账号别名不可为空"
+                                    />
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">账号类型</label>
+                                    <select name="type" class="single-select2 form-control"
+                                            data-parsley-required="true"
+                                            data-parsley-required-message="账号类型不可为空">
+                                        <option th:each="crawler : ${crawlerList}"
+                                                th:value="${crawler.type}" th:text="${crawler.crawler}">账号类型</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">URL</label>
+                                    <input type="url" name="url" class="form-control"
+                                           data-parsley-trigger="blur"
+                                           data-parsley-url="true"
+                                           data-parsley-type="url"
+                                           data-parsley-type-message="请填写正确的URL地址"
+                                    />
+                                </div>
+
+                            </div>
+                            <!-- end col-6 -->
+                        </div>
+                        <!-- end row -->
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <label class="control-label">备注</label>
+                                    <textarea class="form-control" name="remarks" rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn width-100 btn-primary" onclick="add()">确定</a>
+                    <a href="javascript:;" class="btn width-100 btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/modules/spider/accountInfoWhite/index.js}"></script>
+</section>
+
+<!--
+`_id` bigint(20) NOT NULL AUTO_INCREMENT,
+`url` varchar(255) NOT NULL COMMENT '访问地址',
+`account_id` varchar(50) NOT NULL COMMENT '账号',
+`account_name` varchar(255) NOT NULL COMMENT '账号名称',
+`account_nickname` varchar(255) DEFAULT NULL,
+`account_type` int(10) DEFAULT NULL COMMENT '账号类型',
+`account_type_name` varchar(255) DEFAULT NULL COMMENT '账号类型名称',
+`account` varchar(255) DEFAULT NULL,
+`account_area` varchar(255) DEFAULT NULL,
+`org_id` bigint(20) DEFAULT NULL COMMENT '所属机构ID',
+`org_name` varchar(255) DEFAULT NULL COMMENT '所属机构名称',
+`keywords` varchar(255) DEFAULT NULL COMMENT '搜索的关键词',
+`labels` varchar(255) DEFAULT NULL COMMENT '标签',
+`renzhen` varchar(255) DEFAULT NULL COMMENT '认证信息',
+`remarks` varchar(255) DEFAULT NULL COMMENT '描述',
+`status` int(4) DEFAULT '0' COMMENT '状态：0未处置 1风险 2 官方 3 诈骗 ',
+`create_time` datetime DEFAULT NULL COMMENT '添加时间',-->
+
+
+<!--modal end -->
+
+</body>
+</html>

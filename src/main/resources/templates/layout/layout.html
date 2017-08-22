@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:fragment="htmlhead (title)">
+    <meta charset="utf-8" />
+    <title th:text="${title}" >title</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+    <link href="http://fonts.googleapis.com/css?family=Nunito:400,300,700" rel="stylesheet" id="fontFamilySrc" />
+    <link th:href="@{/sourceAdmin/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css}" rel="stylesheet" />
+    <link th:href="@{/sourceAdmin/assets/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/sourceAdmin/assets/plugins/font-awesome/css/font-awesome.min.css}" rel="stylesheet" />
+    <link th:href="@{/sourceAdmin/assets/css/animate.min.css}" rel="stylesheet" />
+    <link th:href="@{/sourceAdmin/assets/css/style.min.css}" rel="stylesheet" />
+    <link th:href="@{/sourceAdmin/assets/plugins/bootstrap-table//bootstrap-table.css}" rel="stylesheet" />
+
+    <!-- ================== END BASE CSS STYLE ================== -->
+
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script th:src="@{/sourceAdmin/assets/plugins/pace/pace.min.js}"></script>
+    <!-- ================== END BASE JS ================== -->
+    <link th:src="@{/sourceAdmin/assets/plugins/parsley/src/parsley.css}" rel="stylesheet" />
+
+    <!--[if lt IE 9]>
+    <script th:src="@{/sourceAdmin/assets/crossbrowserjs/excanvas.min.js}"></script>
+    <![endif]-->
+</head>
+
+<div th:id="header" th:fragment="header(title)" class="header navbar navbar-default navbar-fixed-top">
+    <!-- begin container-fluid -->
+    <div class="container-fluid">
+        <!-- begin mobile sidebar expand / collapse button -->
+        <div class="navbar-header">
+            <a href="index.html" class="navbar-brand" th:text="${title}" ><img th:src="@{/sourceAdmin/assets/img/logo.png}" class="logo" alt="" /> Title</a>
+            <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- end mobile sidebar expand / collapse button -->
+
+        <!-- begin navbar-right -->
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown navbar-user">
+                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="image"><img th:src="@{/sourceAdmin/assets/img/user_profile.jpg}" alt="" /></span>
+                    <span class="hidden-xs">管理员</span> <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu pull-right">
+
+                    <li><a href="javascript:;"> 退出</a></li>
+                </ul>
+            </li>
+        </ul>
+        <!-- end navbar-right -->
+    </div>
+    <!-- end container-fluid -->
+</div>
+
+<div th:id="sidebar" th:fragment="sidebar" class="sidebar">
+    <!-- begin sidebar scrollbar -->
+     <div data-scrollbar="true" data-height="100%">
+         <!-- begin sidebar nav -->
+         <ul class="nav">
+             <li class="has-sub active">
+                 <a href="javascript:;">
+                     <b class="caret pull-right"></b>
+                     <i class="fa fa-home"></i>
+                     <span>系统管理</span>
+                 </a>
+                 <ul class="sub-menu">
+                     <li class="active"><a th:href="@{/user/index}">用户管理</a></li>
+                     <li><a th:href="@{/org/index}">机构管理</a></li>
+                     <li><a th:href="@{/area/index}">地区管理</a></li>
+                 </ul>
+             </li>
+             <li class="has-sub">
+                 <a href="javascript:;">
+                     <b class="caret pull-right"></b>
+                     <i class="fa fa-home"></i>
+                     <span>账号爬虫</span>
+                 </a>
+                 <ul class="sub-menu">
+                     <li><a th:href="@{/webchat/index}">微信</a></li>
+                     <li><a th:href="@{/keywords/index}">关键词</a></li>
+                 </ul>
+             </li>
+         </ul>
+         <!-- end sidebar nav -->
+     </div>
+    <!-- end sidebar scrollbar -->
+</div>
+
+
+<body>
+<!-- begin #footer -->
+<div th:id="footer" th:fragment="footer" ></div>
+<!-- end #footer -->
+
+
+
+    <!-- begin theme-panel -->
+    <div class="theme-panel" th:fragment="themePanel" th:id="themePanel">
+        <a href="javascript:;" data-click="theme-panel-expand" class="theme-collapse-btn"><i class="fa fa-tint"></i></a>
+        <div class="theme-panel-content">
+            <h5 class="m-t-0">字体</h5>
+            <div class="row row-space-10">
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-default btn-block btn-sm m-b-10 active" data-value="" data-src="http://fonts.googleapis.com/css?family=Nunito:400,300,700" data-click="body-font-family">
+                        Nunito (Default)
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-default btn-block btn-sm m-b-10" data-value="font-open-sans" data-src="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" data-click="body-font-family">
+                        Open Sans
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-default btn-block btn-sm m-b-10" data-value="font-roboto" data-src="https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900" data-click="body-font-family">
+                        Roboto
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a href="#" class="btn btn-default btn-block btn-sm m-b-10" data-value="font-lato" data-src="https://fonts.googleapis.com/css?family=Lato:400,100,300,700,900" data-click="body-font-family">
+                        Lato
+                    </a>
+                </div>
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-default btn-block btn-sm" data-value="font-helvetica-arial" data-src="" data-click="body-font-family">
+                        Helvetica Neue, Helvetica , Arial
+                    </a>
+                </div>
+            </div>
+            <div class="horizontal-divider"></div>
+            <h5 class="m-t-0">头部主题</h5>
+            <ul class="theme-list clearfix">
+                <li><a href="javascript:;" class="bg-inverse" data-value="navbar-inverse" data-click="header-theme-selector" data-toggle="tooltip" data-title="Default">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-grey" data-value="navbar-grey" data-click="header-theme-selector" data-toggle="tooltip" data-title="Grey">&nbsp;</a></li>
+                <li class="active"><a href="javascript:;" class="bg-white" data-value="navbar-default" data-click="header-theme-selector" data-toggle="tooltip" data-title="Light">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-purple" data-value="navbar-purple" data-click="header-theme-selector" data-toggle="tooltip" data-title="Purple">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-primary" data-value="navbar-primary" data-click="header-theme-selector" data-toggle="tooltip" data-title="Primary">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-success" data-value="navbar-success" data-click="header-theme-selector" data-toggle="tooltip" data-title="Success">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-lime" data-value="navbar-lime" data-click="header-theme-selector" data-toggle="tooltip" data-title="Lime">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-warning" data-value="navbar-warning" data-click="header-theme-selector" data-toggle="tooltip" data-title="Warning">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-danger" data-value="navbar-danger" data-click="header-theme-selector" data-toggle="tooltip" data-title="Danger">&nbsp;</a></li>
+            </ul>
+            <div class="horizontal-divider"></div>
+            <h5 class="m-t-0">工具栏颜色</h5>
+            <ul class="theme-list clearfix">
+                <li><a href="javascript:;" class="bg-inverse" data-value="sidebar-highlight-inverse" data-click="sidebar-highlight-selector" data-toggle="tooltip" data-title="Inverse">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-grey" data-value="sidebar-highlight-grey" data-click="sidebar-highlight-selector" data-toggle="tooltip" data-title="Grey">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-white" data-value="sidebar-highlight-light" data-click="sidebar-highlight-selector" data-toggle="tooltip" data-title="Light">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-purple" data-value="sidebar-highlight-purple" data-click="sidebar-highlight-selector" data-toggle="tooltip" data-title="Purple">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-primary" data-value="sidebar-highlight-primary" data-click="sidebar-highlight-selector" data-toggle="tooltip" data-title="Primary">&nbsp;</a></li>
+                <li class="active"><a href="javascript:;" class="bg-success" data-value="" data-click="sidebar-highlight-selector" data-toggle="tooltip" data-title="Default">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-lime" data-value="sidebar-highlight-lime" data-click="sidebar-highlight-selector" data-toggle="tooltip" data-title="Lime">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-warning" data-value="sidebar-highlight-warning" data-click="sidebar-highlight-selector" data-toggle="tooltip" data-title="Warning">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-danger" data-value="sidebar-highlight-danger" data-click="sidebar-highlight-selector" data-toggle="tooltip" data-title="Danger">&nbsp;</a></li>
+            </ul>
+            <div class="horizontal-divider"></div>
+            <h5 class="m-t-0">工具栏主题</h5>
+            <ul class="theme-list clearfix">
+                <li class="active"><a href="javascript:;" class="bg-inverse" data-value="" data-click="sidebar-theme-selector" data-toggle="tooltip" data-title="Default">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-grey" data-value="sidebar-grey" data-click="sidebar-theme-selector" data-toggle="tooltip" data-title="Grey">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-white" data-value="sidebar-light" data-click="sidebar-theme-selector" data-toggle="tooltip" data-title="Light">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-purple" data-value="sidebar-purple" data-click="sidebar-theme-selector" data-toggle="tooltip" data-title="Purple">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-primary" data-value="sidebar-primary" data-click="sidebar-theme-selector" data-toggle="tooltip" data-title="Primary">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-success" data-value="sidebar-success" data-click="sidebar-theme-selector" data-toggle="tooltip" data-title="Success">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-lime" data-value="sidebar-lime" data-click="sidebar-theme-selector" data-toggle="tooltip" data-title="Lime">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-warning" data-value="sidebar-warning" data-click="sidebar-theme-selector" data-toggle="tooltip" data-title="Warning">&nbsp;</a></li>
+                <li><a href="javascript:;" class="bg-danger" data-value="sidebar-danger" data-click="sidebar-theme-selector" data-toggle="tooltip" data-title="Danger">&nbsp;</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- end theme-panel -->
+
+</body>
+</html>

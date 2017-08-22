@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.upms.dao.LogDao">
+
+	<!--`_id` varchar(64) NOT NULL COMMENT '编号',
+	`username` varchar(20) DEFAULT NULL COMMENT '操作用户',
+	`start_time` datetime DEFAULT NULL COMMENT '操作时间',
+	`spend_time` int(11) DEFAULT NULL COMMENT '消耗时间',
+	`base_path` varchar(100) DEFAULT NULL COMMENT '根路径',
+	`uri` varchar(200) DEFAULT NULL COMMENT 'URI',
+	`url` varchar(200) DEFAULT NULL COMMENT 'URL',
+	`method` varchar(10) DEFAULT NULL COMMENT '请求类型',
+	`parameter` mediumtext COMMENT '请求参数',
+	`user_agent` varchar(200) DEFAULT NULL COMMENT '用户标识',
+	`ip` varchar(30) DEFAULT NULL COMMENT 'IP地址',
+	`result` mediumtext,
+	`permissions` varchar(100) DEFAULT NULL COMMENT '权限值',
+	`description` varchar(100) DEFAULT NULL COMMENT '操作描述',-->
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.upms.domain.Log">
+		<result column="_id" property="id" />
+		<result column="username" property="username" />
+		<result column="start_time" property="startTime" />
+		<result column="spend_time" property="spendTime" />
+		<result column="base_path" property="basePath" />
+		<result column="uri" property="uri" />
+		<result column="url" property="url" />
+		<result column="method" property="method" />
+		<result column="parameter" property="parameter" />
+		<result column="user_agent" property="userAgent" />
+		<result column="ip" property="ip" />
+		<result column="result" property="result" />
+		<result column="permissions" property="permissions" />
+		<result column="description" property="description" />
+	</resultMap>
+
+	<parameterMap id="Webchat" type="com.yeeton.modules.upms.domain.Log"/>
+
+	<sql id="Base_Column_List">
+		_id,
+		username,
+		start_time,
+		spend_time,
+		base_path,
+		uri,
+		url,
+		method,
+		parameter,
+		user_agent,
+		ip,
+		result,
+		permissions,
+		description
+	</sql>
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_log a
+		WHERE a._id = #{id}
+	</select>
+
+	<select id="select" parameterType="com.yeeton.modules.upms.domain.Log"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_log a
+		WHERE 1=1
+		<if test="type != null and type != ''">
+			AND a.type = #{type}
+		</if>
+		<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+			AND a.created BETWEEN #{startCreated} AND #{endCreated}
+		</if>
+
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_log a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.upms.domain.Log" resultType="java.lang.Integer">
+		SELECT
+		COUNT(_id)
+		FROM upms_log a
+		WHERE 1=1
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.created BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.upms.domain.Log">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_log (
+			username,
+			start_time,
+			spend_time,
+			base_path,
+			uri,
+			url,
+			method,
+			parameter,
+			user_agent,
+			ip,
+			result,
+			permissions,
+			description
+		) VALUES (
+			#{username},
+			#{startTime},
+			#{spendTime},
+			#{basePath},
+			#{uri},
+			#{url},
+			#{method},
+			#{parameter},
+			#{userAgent},
+			#{ip},
+			#{result},
+			#{description}
+		)
+	</insert>
+
+	<insert id="insertBatch"  useGeneratedKeys="true" parameterType="java.util.List">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_log (
+			username,
+			start_time,
+			spend_time,
+			base_path,
+			uri,
+			url,
+			method,
+			parameter,
+			user_agent,
+			ip,
+			result,
+			permissions,
+			description
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.username},
+			#{item.startTime},
+			#{item.spendTime},
+			#{item.basePath},
+			#{item.uri},
+			#{item.url},
+			#{item.method},
+			#{item.parameter},
+			#{item.userAgent},
+			#{item.ip},
+			#{item.result},
+			#{item.description}
+			)
+		</foreach>
+	</insert>
+
+
+	<update id="updateByPrimaryKey" parameterType="com.yeeton.modules.upms.domain.Log">
+		UPDATE upms_log SET
+			username = #{username},
+			start_time = #{startTime},
+			spend_time = #{spendTime},
+			base_path = #{basePath},
+			uri = #{uri},
+			url = #{url},
+			method = #{method},
+			parameter = #{parameter},
+			user_agent = #{userAgent},
+			ip = #{ip},
+			result = #{result},
+			permissions = #{permissions},
+			description = #{description}
+		WHERE _id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.upms.domain.Log">
+		UPDATE upms_log SET
+			username = #{username},
+			start_time = #{startTime},
+			spend_time = #{spendTime},
+			base_path = #{basePath},
+			uri = #{uri},
+			url = #{url},
+			method = #{method},
+			parameter = #{parameter},
+			user_agent = #{userAgent},
+			ip = #{ip},
+			result = #{result},
+			permissions = #{permissions},
+			description = #{description}
+		WHERE _id IN
+		<foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.upms.domain.Log">
+		UPDATE upms_log SET
+			Log = #{Log},
+			type = #{type},
+			created = #{created}
+		WHERE _id = #{id}
+	</update>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		DELETE FROM upms_log WHERE _id = #{id}
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.upms.domain.Log">
+		DELETE FROM account_webchat
+			WHERE
+		<if test="Log != null and Log != ''">
+			AND a.Log = #{Log}
+		</if>
+		<if test="type null and type != ''">
+			AND a.type = #{type}
+		</if>
+	</delete>
+
+</mapper>

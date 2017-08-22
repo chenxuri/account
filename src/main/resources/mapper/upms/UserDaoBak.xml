@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.upms.dao.UserDao2">
+  <!--
+	`_id` varchar(64) NOT NULL COMMENT '编号',
+	`username` varchar(255) DEFAULT NULL COMMENT '登录名',
+	`password` varchar(30) DEFAULT NULL COMMENT '登录密码',
+	`salt` varchar(10) DEFAULT NULL COMMENT '盐',
+	`realname` varchar(20) NOT NULL COMMENT '姓名',
+	`avatar` varchar(50) DEFAULT NULL COMMENT '头像',
+	`phone` varchar(20) DEFAULT NULL COMMENT '电话',
+	`email` varchar(50) DEFAULT NULL COMMENT '邮箱',
+	`gender` tinyint(4) DEFAULT NULL COMMENT '性别',
+	`locked` tinyint(4) DEFAULT NULL COMMENT '状态(0:正常,1:锁定)',
+	`type` tinyint(4) DEFAULT NULL COMMENT '1:后台用户；2：机构登录账户',
+	`remarks` varchar(255) DEFAULT NULL,
+	`create_time` datetime DEFAULT NULL COMMENT '创建时间',
+	`modify_time` datetime DEFAULT NULL,
+	`last_time` datetime DEFAULT NULL COMMENT '上次登录时间',-->
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.upms.domain.User">
+		<result column="_id" property="id" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="salt" property="salt" />
+		<result column="realname" property="realName" />
+		<result column="avatar" property="avatar" />
+		<result column="phone" property="phone" />
+		<result column="email" property="email" />
+		<result column="gender" property="gender" />
+		<result column="locked" property="locked" />
+		<result column="type" property="type" />
+		<result column="salt" property="salt" />
+		<result column="remarks" property="remarks" />
+		<result column="create_time" property="createTime" />
+		<result column="modify_time" property="modifyTime" />
+		<result column="last_time" property="lastTime" />
+	</resultMap>
+
+	<parameterMap id="Webchat" type="com.yeeton.modules.upms.domain.User"/>
+
+	<sql id="Base_Column_List">
+		_id,
+		username,
+		password,
+		realname,
+		avatar,
+		phone,
+		email,
+		gender,
+		locked,
+		type,
+		salt,
+		remarks,
+		create_time,
+		modify_time,
+		last_time
+	</sql>
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_user a
+		WHERE a._id = #{id}
+	</select>
+
+	<select id="findByUsername" parameterType="java.lang.String"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_user a
+		WHERE a.username = #{username}
+	</select>
+
+	<select id="select" parameterType="com.yeeton.modules.upms.domain.User"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_user a
+		<where>
+			<if test="username != null and username != ''">
+				AND a.username = #{username}
+			</if>
+			<if test="realName != null and realName != ''">
+				AND a.realname = #{realName}
+			</if>
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.create_time BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+		</where>
+
+
+	</select>
+
+	<select id="selectOptions"   resultMap="BaseResultMap">
+		SELECT _id,realname FROM upms_user a
+	</select>
+
+	<select id="checkExists"  parameterType="com.yeeton.modules.upms.domain.User" resultType="java.lang.Integer">
+		SELECT count(_id) FROM upms_user a
+		<where>
+			<if test="username != null and username != ''">
+				AND a.username = #{username}
+			</if>
+			<if test="realName != null and realName != ''">
+				AND a.realname = #{realName}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_user a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.upms.domain.User" resultType="java.lang.Integer">
+		SELECT
+		COUNT(_id)
+		FROM upms_user a
+		WHERE 1=1
+			<if test="username != null and username != ''">
+				AND a.username = #{username}
+			</if>
+			<if test="realName != null and realName != ''">
+				AND a.realname = #{realName}
+			</if>
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.create_time BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.upms.domain.User">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_user (
+			username,
+			password,
+			realname,
+			avatar,
+			phone,
+			email,
+			gender,
+			locked,
+			type,
+			salt,
+			remarks,
+			create_time,
+			modify_time,
+			last_time
+		) VALUES (
+			#{username},
+			#{password},
+			#{realName},
+			#{avatar},
+			#{phone},
+			#{email},
+			#{gender},
+			#{locked},
+			#{type},
+			#{salt},
+			#{remarks},
+			#{createTime},
+			#{modifyTime},
+			#{lastTime}
+		)
+	</insert>
+
+	<insert id="insertBatch"  useGeneratedKeys="true" parameterType="java.util.List">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_user (
+			username,
+			password,
+			realname,
+			avatar,
+			phone,
+			email,
+			gender,
+			locked,
+			type,
+			salt,
+			remarks,
+			create_time,
+			modify_time,
+			last_time
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.username},
+			#{item.password},
+			#{item.realName},
+			#{item.avatar},
+			#{item.phone},
+			#{item.email},
+			#{item.gender},
+			#{item.locked},
+			#{item.type},
+			#{item.salt},
+			#{item.remarks},
+			#{item.createTime},
+			#{item.modifyTime},
+			#{item.lastTime}
+			)
+		</foreach>
+	</insert>
+
+
+
+
+	<update id="updateByPrimaryKey" parameterType="java.lang.Long">
+		UPDATE upms_user SET
+			realname = #{realName},
+			avatar = #{avatar},
+			phone = #{phone},
+			email = #{email},
+			gender = #{gender},
+			locked = #{locked},
+			type = #{type},
+			salt = #{salt},
+			remarks = #{remarks},
+			modify_time = #{modifyTime},
+			last_time = #{lastTime}
+		WHERE _id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.upms.domain.User">
+		UPDATE upms_user SET
+			username = #{username},
+			password = #{password},
+			realname = #{realName},
+			avatar = #{avatar},
+			phone = #{phone},
+			email = #{email},
+			gender = #{gender},
+			locked = #{locked},
+			type = #{type},
+			salt = #{salt},
+			remarks = #{remarks},
+			modify_time = #{modifyTime},
+			last_time = #{lastTime}
+		WHERE _id IN
+		<foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.upms.domain.User">
+		UPDATE upms_user SET
+			User = #{User},
+			type = #{type},
+			created = #{created}
+		WHERE _id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="com.yeeton.modules.upms.domain.User">
+		DELETE FROM upms_user WHERE _id = #{id}
+	</delete>
+
+	<delete id="deleteByPrimaryKeyArray" parameterType="java.lang.Long">
+		DELETE FROM upms_user WHERE _id IN
+		<foreach collection="array" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.upms.domain.User">
+		DELETE FROM account_webchat
+			WHERE
+		<if test="User != null and User != ''">
+			AND a.User = #{User}
+		</if>
+		<if test="type null and type != ''">
+			AND a.type = #{type}
+		</if>
+	</delete>
+
+</mapper>

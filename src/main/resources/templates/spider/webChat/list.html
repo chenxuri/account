@@ -1,0 +1,39 @@
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
+<body>
+<section  layout:fragment="content">
+
+    <div id="content" class="content">
+        <div class="row">
+            <form class="form-horizontal" id="form-search" >
+                <div class="form-group m-b-5">
+                    <label class="col-md-2 control-label">公众号名称</label>
+                    <div class="col-md-3">
+                        <input type="text" id="name"  class="form-control" placeholder="公众号名称" name="name"/>
+                    </div>
+                    <label class="col-md-2 control-label">公众号ID</label>
+                    <div class="col-md-3">
+                        <input type="text" id="wechatid" class="form-control" placeholder="公众号名称" name="wechatid"/>
+                    </div>
+                    <button type="button" id="conditionquery" class="btn btn-success width-100 m-r-5">查询</button>
+
+                </div>
+            </form>
+        </div>
+
+        <!-- begin section-container -->
+        <div class="section-container section-with-top-border">
+            <!-- begin panel -->
+            <div class="panel pagination-inverse m-b-0">
+
+                <table id="bootstrapTable"></table>
+
+            </div>
+            <!-- end panel -->
+        </div>
+    </div>
+
+    <script th:src="@{/modules/spider/webchat/index.js}"></script>
+</section>
+
+</body>
+</html>

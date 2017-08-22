@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.upms.dao.OrganizationDao">
+
+<!--	`_id` varchar(64) NOT NULL COMMENT '编号',
+	`parent_id` varchar(64) DEFAULT '-1' COMMENT '所属上级',
+	`parent_ids` varchar(500) DEFAULT NULL COMMENT '所有父级编号',
+	`master_id` varchar(64) DEFAULT NULL COMMENT '所属系统',
+	`area_code` varchar(64) DEFAULT NULL COMMENT '所属地区',
+	`name` varchar(100) NOT NULL COMMENT '组织名称',
+	`english_name` varchar(100) DEFAULT NULL COMMENT '组织英文名称',
+	`code` varchar(50) DEFAULT NULL COMMENT '组织编号',
+	`address` varchar(255) DEFAULT NULL COMMENT '地址',
+	`official_website` varchar(255) DEFAULT NULL COMMENT '官方网站',
+	`official_phone` varchar(20) DEFAULT NULL COMMENT '官方电话',
+	`official_email` varchar(30) DEFAULT NULL COMMENT '官方邮箱',
+	`remarks` varchar(1000) DEFAULT NULL COMMENT '组织描述',
+	`create_time` datetime DEFAULT NULL COMMENT '创建时间',
+	`modify_time` datetime DEFAULT NULL COMMENT '修改时间',-->
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.upms.domain.Organization">
+		<result column="_id" property="id" />
+		<result column="parent_id" property="pid" />
+		<result column="parent_ids" property="pidPath" />
+		<result column="master_id" property="master.id" />
+		<result column="area_code" property="areaCode" />
+		<result column="name" property="name" />
+		<result column="english_name" property="enName" />
+		<result column="code" property="code" />
+		<result column="official_website" property="website" />
+		<result column="official_phone" property="phone" />
+		<result column="official_email" property="email" />
+		<result column="remarks" property="remarks" />
+		<result column="create_time" property="createTime" />
+		<result column="modify_time" property="modifyTime" />
+		<result column="industry.code" property="industry.code" />
+		<result column="industry.name" property="industry.name" />
+	</resultMap>
+
+	<parameterMap id="Webchat" type="com.yeeton.modules.upms.domain.Organization"/>
+
+	<sql id="Base_Column_List">
+		_id
+		parent_id,
+		parent_ids,
+		master_id,
+		area_code,
+		a.name,
+		english_name,
+		code,
+		industry_code AS 'industry.code',
+		official_website,
+		official_phone,
+		official_email,
+		remarks,
+		create_time,
+		modify_time
+	</sql>
+
+	<sql id="full_Column_List">
+		a._id AS _id,
+		a.parent_id AS parent_id,
+		a.parent_ids AS parent_ids,
+		a.master_id AS master_id,
+		a.area_code AS area_code,
+		a.name AS name,
+		a.english_name AS english_name,
+		a.code AS code,
+		a.official_website AS official_website,
+		a.official_phone AS official_phone,
+		a.official_email AS official_email,
+		a.remarks AS remarks,
+		a.create_time AS create_time,
+		a.modify_time AS modify_time,
+		industry.code AS 'industry.code',
+		industry.name AS  'industry.name'
+	</sql>
+
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="full_Column_List"/>
+		FROM upms_organization a
+		LEFT JOIN upms_industry industry on a.industry_code = industry.code
+		WHERE a._id = #{id}
+	</select>
+
+	<select id="selectOptions"   resultMap="BaseResultMap">
+		SELECT
+		_id,name,code,english_name
+		FROM upms_organization a
+	</select>
+
+	<select id="select" parameterType="com.yeeton.modules.upms.domain.Organization"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="full_Column_List"/>
+		FROM upms_organization a
+		LEFT JOIN upms_industry industry on a.industry_code = industry.code
+		<where>
+			<if test="name != null and name != ''">
+				AND a.name = #{name}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.create_time BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM upms_organization a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.upms.domain.Organization" resultType="java.lang.Integer">
+		SELECT
+		COUNT(_id)
+		FROM upms_organization a
+		WHERE 1=1
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.created BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.upms.domain.Organization">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_organization (
+			parent_id,
+			parent_ids,
+			master_id,
+			area_code,
+			name,
+			english_name,
+			code,
+			industry_code,
+			official_website,
+			official_phone,
+			official_email,
+			remarks,
+			create_time,
+			modify_time
+		) VALUES (
+			#{pid},
+			#{pidPath},
+			#{master.id},
+			#{areaCode},
+			#{name},
+			#{enName},
+			#{code},
+			#{industry.code},
+			#{website},
+			#{phone},
+			#{email},
+			#{remarks},
+			#{createTime},
+			#{modifyTime}
+		)
+	</insert>
+
+	<insert id="insertBatch"  useGeneratedKeys="true" parameterType="java.util.List">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT upms_organization (
+			parent_id,
+			parent_ids,
+			master_id,
+			area_code,
+			name,
+			english_name,
+			code,
+			industry_code,
+			official_website,
+			official_phone,
+			official_email,
+			remarks,
+			create_time,
+			modify_time
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.pid},
+			#{item.pidPath},
+			#{item.master.id},
+			#{item.areaCode},
+			#{item.name},
+			#{item.enName},
+			#{item.code},
+			#{item.industry.code},
+			#{item.website},
+			#{item.phone},
+			#{item.email},
+			#{item.remarks},
+			#{item.createTime},
+			#{item.modifyTime}
+			)
+		</foreach>
+	</insert>
+
+
+	<update id="updateByPrimaryKey" parameterType="com.yeeton.modules.upms.domain.Organization">
+		UPDATE upms_organization SET
+			parent_id = #{pid},
+			parent_ids = #{pidPath},
+			master_id = #{master.id},
+			area_code = #{areaCode},
+			name = #{name},
+			english_name = #{enName},
+			code = #{code},
+			industry_code = #{industry.code},
+			official_website = #{website},
+			official_phone = #{phone},
+			official_email = #{email},
+			Organization = #{remarks},
+			create_time = #{createTime},
+			modify_time = #{modifyTime}
+		WHERE _id = #{id}
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.upms.domain.Organization">
+		UPDATE upms_organization SET
+			parent_id = #{pid},
+			parent_ids = #{pidPath},
+			master_id = #{master.id},
+			area_code = #{areaCode},
+			name = #{name},
+			english_name = #{enName},
+			code = #{code},
+			industry_code = #{industry.code},
+			official_website = #{website},
+			official_phone = #{phone},
+			official_email = #{email},
+			Organization = #{remarks},
+			create_time = #{createTime},
+			modify_time = #{modifyTime}
+		WHERE _id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.upms.domain.Organization">
+		UPDATE upms_organization SET
+			parent_id = #{pid},
+			parent_ids = #{pidPath},
+			master_id = #{master.id},
+			area_code = #{areaCode},
+			name = #{name},
+			english_name = #{enName},
+			code = #{code},
+			industry_code = #{industry.code},
+			official_website = #{website},
+			official_phone = #{phone},
+			official_email = #{email},
+			Organization = #{remarks},
+			create_time = #{createTime},
+			modify_time = #{modifyTime}
+		WHERE _id IN
+		<foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		DELETE FROM upms_organization WHERE _id = #{id}
+	</delete>
+
+	<delete id="deleteByPrimaryKeyArray" parameterType="java.lang.Long">
+		DELETE FROM upms_organization WHERE _id IN
+		<foreach collection="array" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.upms.domain.Organization">
+		DELETE FROM account_webchat
+			WHERE
+
+		<if test="name != null and name != ''">
+			AND a.name = #{name}
+		</if>
+	</delete>
+
+</mapper>

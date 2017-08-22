@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.spider.dao.DicDao">
+
+	<!--crawler` varchar(255) NOT NULL COMMENT '网址名称',
+	`cookie` varchar(1024) DEFAULT NULL COMMENT 'cookie值',
+	`type` int(5) NOT NULL COMMENT '类型:1 搜狗微信cookie',
+	`count` bigint(20) DEFAULT NULL COMMENT '数据数量',
+	`url` varchar(255) DEFAULT NULL COMMENT 'url地址',
+	`status` tinyint(4) DEFAULT NULL COMMENT '0未启动 1运行 2 停止 3 异常',-->
+
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.spider.domain.Dic">
+		<result column="_id" property="id" />
+		<result column="pid" property="pid" />
+		<result column="name" property="name" />
+		<result column="value" property="value" />
+		<result column="remarks" property="remarks" />
+	</resultMap>
+
+	<parameterMap id="Webchat" type="com.yeeton.modules.spider.domain.Dic"/>
+
+	<sql id="Base_Column_List">
+		_id, pid,name,remarks,value
+	</sql>
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_dic a
+		WHERE a._id = #{id}
+	</select>
+
+	<select id="select" parameterType="com.yeeton.modules.spider.domain.Dic"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_dic a
+		<where>
+			<if test="name != null and name != ''">
+				AND a.name = #{name}
+			</if>
+			<if test="value null and value != ''">
+				AND a.value = #{value}
+			</if>
+			<if test="pid null and pid != ''">
+				AND a.pid = #{pid}
+			</if>
+		</where>
+
+
+	</select>
+
+
+	<select id="selectOptions"  parameterType="java.lang.Long"  resultMap="BaseResultMap">
+		SELECT
+		_id, name,value
+		FROM account_dic a WHERE pid = #{pid}
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_dic a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.spider.domain.Dic" resultType="java.lang.Integer">
+		SELECT
+		COUNT(_id)
+		FROM account_dic a
+		<where>
+			<if test="name != null and name != ''">
+				AND a.name = #{name}
+			</if>
+			<if test="value null and value != ''">
+				AND a.value = #{value}
+			</if>
+			<if test="pid null and pid != ''">
+				AND a.pid = #{pid}
+			</if>
+		</where>
+
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.spider.domain.Dic">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT account_dic (
+			name,
+			value,
+			pid,
+			remarks
+		) VALUES (
+			#{name},
+			#{value},
+			#{pid},
+			#{remarks}
+		)
+	</insert>
+
+	<insert id="insertBatch"  useGeneratedKeys="true" parameterType="java.util.List">
+
+		<selectKey resultType="long" keyProperty="_id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT account_dic (
+			name,
+			value,
+			pid,
+			remarks
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.name},
+			#{item.value},
+			#{item.pid},
+			#{item.remarks}
+			)
+		</foreach>
+	</insert>
+
+
+	<update id="updateByPrimaryKey" parameterType="com.yeeton.modules.spider.domain.Dic">
+		UPDATE account_dic SET
+			name = #{name},
+			value = #{value}
+		WHERE _id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.spider.domain.Dic">
+		UPDATE account_dic SET
+			name = #{name},
+			value = #{value}
+		WHERE _id IN
+			<foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.spider.domain.Dic">
+		UPDATE account_dic SET
+			name = #{name},
+			value = #{value}
+		WHERE _id = #{id}
+	</update>
+
+
+	<update id="updateCookie" parameterType="com.yeeton.modules.spider.domain.Dic">
+		UPDATE account_dic SET
+		name = #{name},
+		value = #{value}
+		WHERE _id = #{id}
+	</update>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		DELETE FROM account_dic WHERE _id = #{id}
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.spider.domain.Dic">
+		DELETE FROM account_webchat
+		<where>
+			<if test="name != null and name != ''">
+				AND a.name = #{name}
+			</if>
+			<if test="value null and value != ''">
+				AND a.value = #{value}
+			</if>
+			<if test="pid null and pid != ''">
+				AND a.pid = #{pid}
+			</if>
+		</where>
+
+	</delete>
+
+</mapper>

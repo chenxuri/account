@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="htmlhead (title)">
+    <meta charset="utf-8" />
+    <title th:text="${title}" >title</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    <!-- ================== BEGIN BASE CSS STYLE ================== -->
+    <link href="http://fonts.googleapis.com/css?family=Nunito:400,300,700" rel="stylesheet" id="fontFamilySrc" />
+    <link th:href="@{/sourceAdmin/assets/plugins/jquery-ui/themes/base/minified/jquery-ui.min.css}" rel="stylesheet" />
+    <link th:href="@{/sourceAdmin/assets/plugins/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/sourceAdmin/assets/plugins/font-awesome/css/font-awesome.min.css}" rel="stylesheet" />
+    <link th:href="@{/sourceAdmin/assets/css/animate.min.css}" rel="stylesheet" />
+    <link th:href="@{/sourceAdmin/assets/css/style.min.css}" rel="stylesheet" />
+    <link th:href="@{/sourceAdmin/assets/plugins/bootstrap-table//bootstrap-table.css}" rel="stylesheet" />
+
+    <!-- ================== END BASE CSS STYLE ================== -->
+
+    <!-- ================== BEGIN BASE JS ================== -->
+    <script th:src="@{/sourceAdmin/assets/plugins/pace/pace.min.js}"></script>
+    <!-- ================== END BASE JS ================== -->
+
+    <!--[if lt IE 9]>
+    <script th:src="@{/sourceAdmin/assets/crossbrowserjs/excanvas.min.js}"></script>
+    <![endif]-->
+</head>
+</html>

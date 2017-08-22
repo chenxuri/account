@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.upms.dao.UserInfoDao">
+  <!--
+
+	 /*CREATE TABLE `sys_user` (
+            `id` varchar(64) NOT NULL COMMENT '编号',
+            `company_id` varchar(64) DEFAULT NULL COMMENT '归属公司',
+            `office_id` varchar(64) DEFAULT NULL COMMENT '归属部门',
+            `login_name` varchar(100) DEFAULT NULL COMMENT '登录名',
+            `password` varchar(100) DEFAULT NULL COMMENT '密码',
+            `no` varchar(100) DEFAULT NULL COMMENT '工号',
+            `name` varchar(100) DEFAULT NULL COMMENT '姓名',
+            `email` varchar(200) DEFAULT NULL COMMENT '邮箱',
+            `phone` varchar(200) DEFAULT NULL COMMENT '电话',
+            `mobile` varchar(200) DEFAULT NULL COMMENT '手机',
+            `user_type` char(1) DEFAULT NULL COMMENT '用户类型',
+            `photo` varchar(1000) DEFAULT NULL COMMENT '用户头像',
+            `login_ip` varchar(100) DEFAULT NULL COMMENT '最后登陆IP',
+            `login_date` datetime DEFAULT NULL COMMENT '最后登陆时间',
+            `login_flag` varchar(64) DEFAULT NULL COMMENT '是否可登录',
+            `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
+            `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+            `update_by` varchar(64) DEFAULT NULL COMMENT '更新者',
+            `update_date` datetime DEFAULT NULL COMMENT '更新时间',
+            `remarks` varchar(255) DEFAULT NULL COMMENT '备注信息',
+            `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
+            `qrcode` varchar(1000) DEFAULT NULL COMMENT '二维码',*/
+    private String  username;
+    private String  password;
+    private String  no;
+    private String  name;
+    private String  phone;
+    private String  photo;
+    private String  email;
+    private String  loginIp;
+    private String  loginDate;
+	-->
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.upms.domain.UserInfo">
+		<result column="id" property="id" />
+		<result column="login_name" property="username" />
+		<result column="password" property="password" />
+		<result column="no" property="no" />
+		<result column="name" property="name" />
+		<result column="avatar" property="avatar" />
+		<result column="phone" property="phone" />
+		<result column="email" property="email" />
+		<result column="photo" property="photo" />
+		<result column="login_ip" property="loginIp" />
+		<result column="login_date" property="loginDate" />
+		<result column="create_date" property="createTime" />
+
+	</resultMap>
+
+	<parameterMap id="UserInfo" type="com.yeeton.modules.upms.domain.UserInfo"/>
+
+	<sql id="Base_Column_List">
+		id,
+		login_name,
+		password,
+		no,
+		name,
+		phone,
+		email,
+		photo,
+		login_ip,
+		login_date,
+		create_date
+	</sql>
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM sys_user a
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findByUsername" parameterType="java.lang.String"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM sys_user a
+		WHERE a.login_name = #{username}
+	</select>
+
+	<select id="select" parameterType="com.yeeton.modules.upms.domain.UserInfo"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM sys_user a
+		<where>
+			<if test="username != null and username != ''">
+				AND a.login_name = #{username}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name = #{name}
+			</if>
+
+		</where>
+
+
+	</select>
+
+	<select id="selectOptions"   resultMap="BaseResultMap">
+		SELECT id,name FROM sys_user a
+	</select>
+
+	<select id="checkExists"  parameterType="com.yeeton.modules.upms.domain.UserInfo" resultType="java.lang.Integer">
+		SELECT count(id) FROM sys_user a
+		<where>
+			<if test="username != null and username != ''">
+				AND a.login_name = #{username}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name = #{name}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM sys_user a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.upms.domain.UserInfo" resultType="java.lang.Integer">
+		SELECT
+		COUNT(id)
+		FROM sys_user a
+		WHERE 1=1
+			<if test="username != null and username != ''">
+				AND a.login_name = #{username}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name = #{name}
+			</if>
+
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.upms.domain.UserInfo">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT sys_user (
+			login_name,
+			password,
+			no,
+			name,
+			phone,
+			email,
+			photo,
+			login_ip,
+			login_date,
+			create_date
+		) VALUES (
+			#{username},
+			#{password},
+			#{no},
+			#{name},
+			#{phone},
+			#{email},
+			#{photo},
+			#{loginIp},
+			#{loginDate},
+			#{createTime}
+		)
+	</insert>
+
+	<insert id="insertBatch"  useGeneratedKeys="true" parameterType="java.util.List">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT sys_user (
+			login_name,
+			password,
+			no,
+			name,
+			phone,
+			email,
+			photo,
+			login_ip,
+			login_date,
+			create_date
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.username},
+			#{item.password},
+			#{item.no},
+			#{item.name},
+			#{item.phone},
+			#{item.email},
+			#{item.photo},
+			#{item.loginIp},
+			#{item.loginDate},
+			#{item.createTime}
+			)
+		</foreach>
+	</insert>
+
+
+
+
+	<update id="updateByPrimaryKey" parameterType="java.lang.Long">
+		UPDATE sys_user SET
+			login_name = #{username},
+			password = #{password},
+			phone = #{phone},
+			email = #{email},
+			gender = #{photo},
+			photo = #{locked},
+			login_ip = #{loginIp},
+			login_date = #{loginDate},
+			create_date = #{createTime}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.upms.domain.UserInfo">
+		UPDATE sys_user SET
+			login_name = #{username},
+			password = #{password},
+			phone = #{phone},
+			email = #{email},
+			gender = #{photo},
+			photo = #{locked},
+			login_ip = #{loginIp},
+			login_date = #{loginDate},
+			create_date = #{createTime}
+		WHERE id IN
+		<foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.upms.domain.UserInfo">
+		UPDATE sys_user SET
+			login_name = #{username},
+			password = #{password},
+			phone = #{phone},
+			email = #{email},
+			gender = #{photo},
+			photo = #{locked},
+			login_ip = #{loginIp},
+			login_date = #{loginDate},
+			create_date = #{createTime}
+		WHERE _id = #{id}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="com.yeeton.modules.upms.domain.UserInfo">
+		DELETE FROM sys_user WHERE _id = #{id}
+	</delete>
+
+	<delete id="deleteByPrimaryKeyArray" parameterType="java.lang.Long">
+		DELETE FROM sys_user WHERE _id IN
+		<foreach collection="array" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.upms.domain.UserInfo">
+		DELETE FROM sys_user
+			WHERE
+		<if test="username != null and username != ''">
+			AND a.login_name = #{username}
+		</if>
+		<if test="type null and type != ''">
+			AND a.type = #{type}
+		</if>
+	</delete>
+
+</mapper>

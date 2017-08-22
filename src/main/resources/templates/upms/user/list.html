@@ -1,0 +1,193 @@
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="layout">
+<body>
+<section  layout:fragment="content">
+
+
+<!-- begin #content -->
+    <div id="content" class="content">
+
+        <div class="row">
+            <form class="form-horizontal" id="form-search" >
+                <div class="form-group m-b-5">
+                    <label class="col-md-2 control-label">登录名</label>
+                    <div class="col-md-3">
+                        <input type="text"  class="form-control" placeholder="登录名" name="username"/>
+                    </div>
+                    <label class="col-md-2 control-label">用户名</label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="用户名" name="name"/>
+                    </div>
+                    <button type="button" id="conditionquery" class="btn btn-success width-100 m-r-5">查询</button>
+
+                </div>
+
+            </form>
+        </div>
+
+        <!-- begin section-container -->
+        <div class="section-container section-with-top-border">
+
+            <div class="clearfix m-b-20">
+                <a href="#modal-add" class="btn btn-success m-r-5 m-b-5" data-toggle="modal">添加</a>
+                <!--
+                                <a href="javascript:;" class="btn btn-success m-r-5 m-b-5" onclick="modify()">修改</a>
+                -->
+                <a href="javascript:;" class="btn btn-success m-r-5 m-b-5" onclick="remove()">删除</a>
+            </div>
+
+            <!-- begin panel -->
+            <div class="panel pagination-inverse m-b-0">
+                <table id="bootstrapTable"></table>
+            </div>
+            <!-- end panel -->
+        </div>
+        <!-- end section-container -->
+
+        <!-- begin #footer -->
+<!--
+        <div th:replace="layout/layout :: footer"></div>
+-->
+        <!-- end #footer -->
+    </div>
+    <!-- end #content -->
+
+    <!--
+	`_id` varchar(64) NOT NULL COMMENT '编号',
+	`username` varchar(255) DEFAULT NULL COMMENT '登录名',
+	`password` varchar(30) DEFAULT NULL COMMENT '登录密码',
+	`salt` varchar(10) DEFAULT NULL COMMENT '盐',
+	`realname` varchar(20) NOT NULL COMMENT '姓名',
+	`avatar` varchar(50) DEFAULT NULL COMMENT '头像',
+	`phone` varchar(20) DEFAULT NULL COMMENT '电话',
+	`email` varchar(50) DEFAULT NULL COMMENT '邮箱',
+	`gender` tinyint(4) DEFAULT NULL COMMENT '性别',
+	`locked` tinyint(4) DEFAULT NULL COMMENT '状态(0:正常,1:锁定)',
+	`type` tinyint(4) DEFAULT NULL COMMENT '1:后台用户；2：机构登录账户',
+	`remarks` varchar(255) DEFAULT NULL,
+	`create_time` datetime DEFAULT NULL COMMENT '创建时间',
+	`modify_time` datetime DEFAULT NULL,
+	`last_time` datetime DEFAULT NULL COMMENT '上次登录时间',-->
+    <div class="modal fade" id="modal-add">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">添加用户</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form class="form-input-flat"  id="form-add">
+                        <!-- begin row -->
+                        <div class="row">
+                            <!-- begin col-6 -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">登录名</label>
+                                    <input type="text" name="username" class="form-control"
+                                           data-parsley-trigger="blur"
+                                           data-parsley-required="true"
+                                           data-parsley-required-message="登录名不可为空"
+                                           data-parsley-minlength="6"
+                                           data-parsley-minlength-message="登录名不能少于6个字符"
+                                           data-parsley-type="alphanum"
+                                           data-parsley-type-message="登录名不能包含汉字或特殊字符"
+                                           data-parsley-remote="/account/upms/user/user_exists"
+                                           data-parsley-remote-options='{ "type": "POST", "dataType": "json", "data": { "request": "ajax" } }'
+                                           data-parsley-remote-message="此用户登录名已存在!"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">初始密码</label>
+                                    <input type="text" name="password"class="form-control"
+                                           data-parsley-trigger="blur"
+                                           data-parsley-required="true"
+                                           data-parsley-required-message="密码不可为空"
+                                           data-parsley-minlength="8"
+                                           data-parsley-minlength-message="密码不能少于8个字符"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label">类型</label>
+                                    <div class="form-group form-control">
+                                        <input type="radio" name="type" value="1" checked />普通用户
+                                        <input type="radio" name="type"  value="0" />机构用户
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">所属机构</label>
+                                    <select name="org_id" class="single-select2 form-control" >
+                                        <option th:each="org : ${orgList}"
+                                                th:value="${org.id}" th:text="${org.name}">机构名称</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <!-- end col-6 -->
+                            <!-- begin col-6 -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">真实名称</label>
+                                    <input type="text" name="name" class="form-control"
+                                           data-parsley-trigger="blur"
+                                           data-parsley-required="true"
+                                           data-parsley-required-message="真实名称不可为空"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">性别</label>
+                                    <div class="form-group form-control">
+                                        <input type="radio" name="gender" value="1" checked />男
+                                        <input type="radio" name="gender"  value="0" />女
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">电话</label>
+                                    <input type="text" name="phone " class="form-control phone"/>
+                                          <!-- data-parsley-trigger="blur"
+                                           data-parsley-pattern="/^1[34578]\d{9}$/"
+                                           data-parsley-pattern-message="请填写正确的手机号码"-->
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">邮箱</label>
+                                    <input type="email" name="email" class="form-control"
+                                           data-parsley-trigger="blur"
+                                           data-parsley-email="true"
+                                           data-parsley-type="email"
+                                           data-parsley-type-message="请填写正确的电子邮箱"/>
+                                </div>
+
+
+                            </div>
+                            <!-- end col-6 -->
+                        </div>
+                        <!-- end row -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">备注</label>
+                                    <textarea class="form-control" name="remarks" rows="4"
+                                              data-parsley-trigger="blur"
+                                              placeholder="长度范围 20 - 200"
+                                              data-parsley-range="[20,200]"
+                                              data-parsley-range-message="备注范围在20到200个字符之间"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:;" class="btn width-100 btn-primary" onclick="add()">确定</a>
+                    <a href="javascript:;" class="btn width-100 btn-default" data-dismiss="modal">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--modal end-->
+
+<!-- ================== END PAGE LEVEL JS ================== -->
+    <script th:src="@{/modules/upms/user/index.js}"></script>
+
+</section>
+</body>
+</html>

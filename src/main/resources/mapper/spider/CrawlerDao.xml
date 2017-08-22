@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yeeton.modules.spider.dao.CrawlerDao">
+
+	<!--crawler` varchar(255) NOT NULL COMMENT '网址名称',
+	`cookie` varchar(1024) DEFAULT NULL COMMENT 'cookie值',
+	`type` int(5) NOT NULL COMMENT '类型:1 搜狗微信cookie',
+	`count` bigint(20) DEFAULT NULL COMMENT '数据数量',
+	`url` varchar(255) DEFAULT NULL COMMENT 'url地址',
+	`status` tinyint(4) DEFAULT NULL COMMENT '0未启动 1运行 2 停止 3 异常',-->
+
+	<resultMap id="BaseResultMap" type="com.yeeton.modules.spider.domain.Crawler">
+		<result column="_id" property="id" />
+		<result column="crawler" property="crawler" />
+		<result column="code" property="code" />
+		<result column="cookie" property="cookie" />
+		<result column="count" property="count" />
+		<result column="type" property="type" />
+		<result column="account_type" property="accountType" />
+		<result column="account_type_name" property="accountTypeName" />
+		<result column="url" property="url" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+	<parameterMap id="Webchat" type="com.yeeton.modules.spider.domain.Crawler"/>
+
+	<sql id="Base_Column_List">
+		_id, crawler,code,cookie,count, url,type,account_type,account_type_name,create_time
+	</sql>
+
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_crawler a
+		WHERE a._id = #{id}
+	</select>
+
+	<select id="select" parameterType="com.yeeton.modules.spider.domain.Crawler"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_crawler a
+		<where>
+			<if test="crawler != null and crawler != ''">
+				AND a.crawler like  CONCAT('%',#{crawler},'%')
+			</if>
+			<if test="accountTypeName != null and accountTypeName != ''">
+				AND a.account_type_name like  CONCAT('%',#{accountTypeName},'%')
+			</if>
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="accountType != null and accountType != ''">
+				AND a.account_type = #{accountType}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.created BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+		</where>
+
+
+	</select>
+
+
+	<select id="selectOptions"   resultMap="BaseResultMap">
+		SELECT
+		_id, crawler,code,type
+		FROM account_crawler a
+	</select>
+
+	<select id="selectAll"  resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM account_crawler a
+		WHERE 1=1
+	</select>
+
+	<select id="selectCount" parameterType="com.yeeton.modules.spider.domain.Crawler" resultType="java.lang.Integer">
+		SELECT
+		COUNT(_id)
+		FROM account_crawler a
+		<where>
+			<if test="type != null and type != ''">
+				AND a.type = #{type}
+			</if>
+			<if test="startCreated != null and endCreated != null and startCreated != '' and endCreated != ''">
+				AND a.created BETWEEN #{startCreated} AND #{endCreated}
+			</if>
+		</where>
+
+	</select>
+
+	<insert id="insert"  useGeneratedKeys="true" parameterType="com.yeeton.modules.spider.domain.Crawler">
+
+		<selectKey resultType="long" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+
+		INSERT account_crawler (
+			crawler,
+			code,
+			cookie,
+			count,
+			url,
+			type,
+			account_type,
+			account_type_name,
+			create_time
+		) VALUES (
+			#{crawler},
+			#{code},
+			#{cookie},
+			#{count},
+			#{url},
+			#{type},
+			#{accountType},
+			#{accountTypeName},
+			#{createTime}
+		)
+	</insert>
+
+	<insert id="insertBatch"  useGeneratedKeys="true" parameterType="java.util.List">
+
+		INSERT account_crawler (
+			crawler,
+			code,
+			cookie,
+			count,
+			url,
+			type,
+			account_type,
+			account_type_name,
+			create_time
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator="," >
+			(
+			#{item.crawler},
+			#{item.code},
+			#{item.cookie},
+			#{item.count},
+			#{item.url},
+			#{item.type},
+			#{item.accountType},
+			#{item.accountTypeName},
+			#{item.createTime}
+			)
+		</foreach>
+	</insert>
+
+
+	<update id="updateByPrimaryKey" parameterType="com.yeeton.modules.spider.domain.Crawler">
+		UPDATE account_crawler SET
+			crawler = #{crawler},
+			code = #{code},
+			cookie = #{cookie},
+			count = #{count},
+			url = #{url},
+			type = #{type},
+			account_type = #{accountType},
+			account_type_name = #{accountTypeName}
+		WHERE _id = #{id}
+	</update>
+
+	<update id="updateByPrimaryKeyList" parameterType="com.yeeton.modules.spider.domain.Crawler">
+		UPDATE account_crawler SET
+			crawler = #{crawler},
+			code = #{code},
+			cookie = #{cookie},
+			count = #{count},
+			url = #{url},
+			type = #{type},
+			account_type = #{accountType},
+			account_type_name = #{accountTypeName}
+		WHERE _id IN
+			<foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</update>
+
+	<update id="update" parameterType="com.yeeton.modules.spider.domain.Crawler">
+		UPDATE account_crawler SET
+			crawler = #{crawler},
+			code = #{code},
+			cookie = #{cookie},
+			count = #{count},
+			url = #{url},
+			type = #{type},
+			account_type = #{accountType},
+			account_type_name = #{accountTypeName}
+		WHERE _id = #{id}
+	</update>
+
+
+	<update id="updateCookie" parameterType="com.yeeton.modules.spider.domain.Crawler">
+		UPDATE account_crawler SET
+		cookie = #{cookie}
+		WHERE _id = #{id}
+	</update>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		DELETE FROM account_crawler WHERE _id = #{id}
+	</delete>
+
+
+	<delete id="deleteByPrimaryKeyArray" parameterType="java.lang.Long">
+		DELETE FROM account_crawler WHERE _id IN
+		<foreach collection="array" item="id" index="index"
+				 open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<delete id="delete" parameterType="com.yeeton.modules.spider.domain.Crawler">
+		DELETE FROM account_webchat
+		<where>
+			<if test="cookie != null and cookie != ''">
+				AND a.cookie = #{cookie}
+			</if>
+			<if test="type null and type != ''">
+				AND a.type = #{type}
+			</if>
+		</where>
+
+	</delete>
+
+</mapper>
